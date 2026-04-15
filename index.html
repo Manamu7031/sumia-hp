@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUMIA | 建設業向けAI補助金トラッキングシステム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            main: '#1e3a8a',
+                            accent: '#3b82f6',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'message-pop': 'messagePop 4s ease-in-out infinite',
+                        'data-scan': 'dataScan 3s linear infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        messagePop: {
+                            '0%, 100%': { opacity: '0', transform: 'translateY(10px) scale(0.95)' },
+                            '10%, 80%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                            '90%': { opacity: '0', transform: 'translateY(-10px) scale(0.95)' }
+                        },
+                        dataScan: {
+                            '0%': { transform: 'translateY(-100%)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '90%': { opacity: '1' },
+                            '100%': { transform: 'translateY(400%)', opacity: '0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-font-smoothing: antialiased; }
+        .reveal { opacity: 0; }
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 leading-relaxed break-words">
+
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black tracking-widest text-brand-dark">SUMIA</div>
+            <a href="#contact" class="text-sm font-bold bg-brand-accent text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition-colors">お問い合わせ</a>
+        </div>
+    </header>
+
+    <section class="relative pt-24 pb-32 px-6 bg-brand-dark text-white overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
+        
+        <div class="max-w-5xl mx-auto relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <div class="reveal">
+                <span class="inline-block py-1 px-3 border border-blue-500/50 bg-blue-500/10 text-blue-400 text-sm font-bold rounded-full mb-6">
+                    圧倒的な業務効率化と成約率向上を実現
+                </span>
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-8 tracking-tight">
+                    <span class="inline-block">AIが、</span><span class="inline-block">建設業の</span><span class="inline-block">補助金探しを</span><span class="inline-block">終わらせる。</span>
+                </h1>
+                <p class="text-lg text-slate-300 leading-relaxed mb-10">
+                    <span class="inline-block">探す手間ゼロ。</span><span class="inline-block">営業トークもAIが自動生成。</span><br>
+                    <span class="inline-block">月額19,800円で、</span><span class="inline-block">機会損失を完全に防ぐ</span><span class="inline-block">ダッシュボード。</span>
+                </p>
+                <div class="flex gap-4">
+                    <a href="#contact" class="inline-block bg-brand-accent hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-lg transition-colors shadow-lg">無料デモを申し込む</a>
+                </div>
+            </div>
+            
+            <div class="hidden md:block reveal animate-float">
+                <svg viewBox="0 0 400 400" class="w-full h-auto drop-shadow-2xl">
+                    <rect width="400" height="400" rx="40" fill="#1e293b" fill-opacity="0.8"/>
+                    <rect x="50" y="0" width="300" height="4" fill="#3b82f6" class="animate-data-scan" filter="blur(2px)"/>
+                    <circle cx="200" cy="200" r="120" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="10 10" class="animate-[spin_20s_linear_infinite]"/>
+                    <circle cx="200" cy="80" r="6" fill="#fff" class="animate-pulse"/>
+                    <circle cx="285" cy="285" r="6" fill="#fff" class="animate-pulse delay-100"/>
+                    <circle cx="115" cy="285" r="6" fill="#fff" class="animate-pulse delay-200"/>
+                    <path d="M 170 200 L 190 220 L 240 170" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-white border-b border-slate-100">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-4">ABOUT SUMIA</h2>
+            <h3 class="text-3xl md:text-4xl font-bold mb-8 text-brand-dark leading-tight">
+                <span class="inline-block">補助金を「探す」</span><span class="inline-block">ツールではなく、</span><br class="hidden md:block">
+                <span class="inline-block">補助金で「売上を作る」ための</span><span class="inline-block">AI営業支援システムです。</span>
+            </h3>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto text-left md:text-center">
+                SUMIA（スミア）は、建設業界・工務店様のために開発された特化型AIサービスです。
+                複雑で膨大な補助金データベースから、御社の施工地域・工事内容に合致する案件だけをピンポイントで抽出。
+                ただ情報を通知するだけでなく、AIが「施主様にそのまま送れる営業トーク」へと自動変換します。
+                <strong>事務作業を極限まで減らし、補助金を強力な「営業の武器」へと昇華させること</strong>が私たちのミッションです。
+            </p>
+        </div>
+    </section>
+
+    <section class="pt-24 pb-12 px-6 bg-slate-50">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">ISSUES</h2>
+            <h3 class="text-3xl font-bold mb-16 text-brand-dark">現場が抱える構造的な課題</h3>
+        </div>
+        <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 reveal delay-100">
+            <div class="p-8 bg-white border border-slate-200 rounded-xl hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h4 class="font-bold text-lg mb-3">調べる時間がない</h4>
+                <p class="text-slate-600 text-sm leading-relaxed">日々の現場業務に追われ、各自治体のウェブサイトを定期的に巡回し、難解な要項を読み解く時間が確保できない。</p>
+            </div>
+            <div class="p-8 bg-white border border-slate-200 rounded-xl hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <h4 class="font-bold text-lg mb-3">専門用語が難解</h4>
+                <p class="text-slate-600 text-sm leading-relaxed">役所の資料は専門用語が多く、自社が対象要件を満たしているのかどうかを正確に判断することが難しい。</p>
+            </div>
+            <div class="p-8 bg-white border border-slate-200 rounded-xl hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                </div>
+                <h4 class="font-bold text-lg mb-3">機会損失の常態化</h4>
+                <p class="text-slate-600 text-sm leading-relaxed">気づいた時には申請期間が終了しており、もらえるはずだった資金を逃してしまうケースが多発している。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pb-24 pt-12 px-6 bg-slate-50">
+        <div class="max-w-5xl mx-auto reveal">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-8 md:p-10 bg-red-50/50 border-b md:border-b-0 md:border-r border-slate-200">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold shrink-0">×</div>
+                            <h4 class="text-lg md:text-xl font-bold text-slate-800">これまでの業界の常識</h4>
+                        </div>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4 text-slate-600">
+                                <svg class="w-6 h-6 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div>
+                                    <strong class="block text-slate-800 mb-1">自ら検索しにいかなければならない</strong>
+                                    数千件ある自治体サイトの中から、自社に合うものを目視で探す途方もない労力。
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4 text-slate-600">
+                                <svg class="w-6 h-6 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div>
+                                    <strong class="block text-slate-800 mb-1">要項を「翻訳」する手間</strong>
+                                    PDFの難解な文章を読み解き、施主に説明するための資料をゼロから作る必要がある。
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-8 md:p-10 bg-blue-50/50">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold shrink-0">○</div>
+                            <h4 class="text-lg md:text-xl font-bold text-slate-800">SUMIA導入後</h4>
+                        </div>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4 text-slate-600">
+                                <svg class="w-6 h-6 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div>
+                                    <strong class="block text-brand-main mb-1">情報は自動で「届く」ものに</strong>
+                                    地域と工事種類を一度設定するだけ。条件に合致した案件のみがLINEに直接届く。
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4 text-slate-600">
+                                <svg class="w-6 h-6 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div>
+                                    <strong class="block text-brand-main mb-1">AIテキストを「コピペ」して即営業</strong>
+                                    要項はAIが施主向けに要約済み。コピーしてLINEやメールに貼り付けるだけで提案が完了。
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-slate-900 text-white relative">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">CORE FEATURES</h2>
+            <h3 class="text-3xl font-bold mb-16">システムの中核機能と導入メリット</h3>
+        </div>
+        
+        <div class="max-w-4xl mx-auto space-y-24">
+            <div class="reveal flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative w-full">
+                    <svg viewBox="0 0 400 300" class="w-full drop-shadow-xl rounded-xl">
+                        <rect width="400" height="300" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+                        <rect x="0" y="0" width="100" height="300" fill="#1e293b" rx="12" clip-path="polygon(0 0, 100% 0, 100% 100%, 0 100%)"/>
+                        <rect x="20" y="20" width="60" height="8" fill="#334155" rx="4"/>
+                        <rect x="20" y="50" width="40" height="6" fill="#3b82f6" rx="3"/>
+                        <rect x="120" y="20" width="260" height="60" fill="#fff" stroke="#e2e8f0" rx="6"/>
+                        <g class="animate-pulse-slow">
+                            <rect x="140" y="40" width="80" height="20" fill="#eff6ff" rx="4"/>
+                            <text x="150" y="54" fill="#1d4ed8" font-size="10" font-weight="bold">地域: 東京</text>
+                            <rect x="230" y="40" width="100" height="20" fill="#eff6ff" rx="4"/>
+                            <text x="240" y="54" fill="#1d4ed8" font-size="10" font-weight="bold">工事: 外壁塗装</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="md:w-1/2 w-full">
+                    <div class="text-brand-accent font-black text-xl mb-2">01. 簡単な初期設定</div>
+                    <h4 class="font-bold text-2xl mb-4">地域と工事種類を選ぶだけ</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        専用ダッシュボードから、自社が対応している「工事種類（例：断熱リフォーム、外壁塗装）」と「地域」を選択するだけで設定は完了。複雑なIT知識は一切不要です。
+                    </p>
+                </div>
+            </div>
+
+            <div class="reveal flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="md:w-1/2 w-full">
+                    <svg viewBox="0 0 400 300" class="w-full drop-shadow-xl rounded-xl">
+                        <rect width="400" height="300" rx="12" fill="#0f172a"/>
+                        <rect x="40" y="40" width="320" height="40" fill="#1e293b" rx="6"/>
+                        <rect x="60" y="56" width="200" height="8" fill="#334155" rx="4"/>
+                        <rect x="40" y="100" width="320" height="160" fill="#1e293b" rx="6"/>
+                        <g class="animate-message-pop delay-100">
+                            <rect x="60" y="130" width="280" height="30" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" rx="6"/>
+                            <text x="80" y="150" fill="#60a5fa" font-size="12" font-weight="bold">AI抽出: 最大200万円の受給が可能</text>
+                        </g>
+                        <g class="animate-message-pop delay-[2000ms]">
+                            <rect x="60" y="180" width="280" height="30" fill="#22c55e" fill-opacity="0.2" stroke="#22c55e" rx="6"/>
+                            <text x="80" y="200" fill="#4ade80" font-size="12" font-weight="bold">対象: 令和6年度 省エネ住宅補助</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="md:w-1/2 w-full">
+                    <div class="text-brand-accent font-black text-xl mb-2">02. 圧倒的な業務効率化</div>
+                    <h4 class="font-bold text-2xl mb-4">検索と読み解きの時間を「ゼロ」へ</h4>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        官公庁や自治体サイトを人間が巡回する必要はもうありません。AIが24時間データを監視し、設定した条件に合致する補助金情報だけを自動抽出。
+                        <strong class="text-white bg-blue-900 px-2 py-1 rounded">これまで調査に費やしていた数十時間が完全に不要</strong>になり、本来の現場業務に集中できます。
+                    </p>
+                </div>
+            </div>
+
+            <div class="reveal flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative w-full">
+                    <svg viewBox="0 0 400 300" class="w-full drop-shadow-xl">
+                        <rect x="100" y="0" width="200" height="300" rx="20" fill="#fff" stroke="#cbd5e1" stroke-width="4"/>
+                        <rect x="100" y="0" width="200" height="40" fill="#1e293b" rx="20" clip-path="polygon(0 0, 100% 0, 100% 100%, 0 100%)"/>
+                        <g class="animate-fade-in-up">
+                            <rect x="120" y="60" width="140" height="50" fill="#eff6ff" rx="10"/>
+                            <text x="130" y="80" fill="#1e293b" font-size="10">💡 新着補助金のご案内</text>
+                            <text x="130" y="95" fill="#64748b" font-size="8">このままコピーして施主様へ</text>
+                        </g>
+                        <g class="animate-fade-in-up delay-[1500ms]">
+                            <rect x="150" y="130" width="130" height="40" fill="#22c55e" rx="10"/>
+                            <text x="160" y="150" fill="#fff" font-size="10">補助金で50万円お得に！</text>
+                            <text x="160" y="162" fill="#fff" font-size="10">御社にお願いします。</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="md:w-1/2 w-full">
+                    <div class="text-brand-accent font-black text-xl mb-2">03. 成約率の劇的な向上</div>
+                    <h4 class="font-bold text-2xl mb-4">補助金という「最強の実質値引き」</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        補助金は、自社の利益を削ることなく施主様へ提示できる「実質的な値引き」です。
+                        AIが難解な要件を「施主向けの分かりやすい営業トーク」に要約し、LINEへ通知。それをコピーして送るだけで、<strong class="text-white bg-blue-900 px-2 py-1 rounded">相見積もりで負けない圧倒的な提案力</strong>を獲得し、成約率が跳ね上がります。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-white border-b border-slate-100">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-4">TARGET SUBSIDIES</h2>
+            <h3 class="text-2xl md:text-3xl font-bold mb-10 text-brand-dark">国の主要な補助金から、各自治体の独自案件まで網羅</h3>
+            <p class="text-slate-600 mb-10">例えば以下のような、建築・リフォーム業界で需要の高い補助金の公募開始・期限をAIが逃さずキャッチします。</p>
+            
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="px-5 py-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-full font-bold text-sm">子育てエコホーム支援事業</span>
+                <span class="px-5 py-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-full font-bold text-sm">先進的窓リノベ事業</span>
+                <span class="px-5 py-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-full font-bold text-sm">給湯省エネ事業</span>
+                <span class="px-5 py-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-full font-bold text-sm">長期優良住宅化リフォーム推進事業</span>
+                <span class="px-5 py-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-full font-bold text-sm">各市区町村の独自リフォーム助成金</span>
+                <span class="px-5 py-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-full font-bold text-sm">IT導入補助金 (自社導入用)</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-24 px-6 bg-slate-900 text-white border-t border-slate-800">
+        <div class="max-w-5xl mx-auto reveal text-center">
+            <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">PRICING & ROI</h2>
+            <h3 class="text-3xl font-bold mb-12">投資回収の妥当性と圧倒的な費用対効果</h3>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto text-left">
+                <div class="bg-slate-800 rounded-2xl border border-slate-700 p-8 shadow-xl">
+                    <h4 class="text-lg font-bold mb-6 text-center text-slate-300">月間の調査コスト比較</h4>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-slate-900 rounded-lg border border-red-900/50">
+                            <div>
+                                <span class="block text-sm text-slate-400">従来 (人間が手作業で調査)</span>
+                                <span class="font-bold text-red-400">約 60,000 円 / 月</span>
+                            </div>
+                            <div class="text-xs text-slate-500 text-right">※時給3000円×20時間<br>（調査・資料作成）</div>
+                        </div>
+                        <div class="flex justify-center text-slate-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-blue-900/30 rounded-lg border border-blue-500/50">
+                            <div>
+                                <span class="block text-sm text-blue-300">SUMIA導入後 (完全自動化)</span>
+                                <span class="font-bold text-3xl text-white">19,800 <span class="text-base font-normal">円/月</span></span>
+                            </div>
+                            <div class="text-sm font-bold text-blue-400 text-right">約66%の<br>コストカット</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white mb-2">1件の成約で即座に回収可能</h4>
+                            <p class="text-slate-400 text-sm leading-relaxed">月額19,800円は、人件費削減分だけでもお釣りが来ます。さらに、補助金を活用したリフォーム案件（外壁塗装や断熱改修等）を月に1件でも余分に受注できれば、システムの数年分のコストを即座に回収できる極めてローリスクな投資です。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white mb-2">追加費用なしの完全定額制</h4>
+                            <p class="text-slate-400 text-sm leading-relaxed">ユーザー数や抽出件数による従量課金は一切ありません。どれだけAIで営業テキストを生成しても、毎月の運用コストは固定です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-slate-50">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">FLOW</h2>
+            <h3 class="text-3xl font-bold mb-16 text-brand-dark">最短即日。導入までの3ステップ</h3>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm relative">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-brand-dark text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                    <h4 class="font-bold text-lg mt-4 mb-2 text-center">お問い合わせ</h4>
+                    <p class="text-slate-600 text-sm text-center leading-relaxed">フォームよりご連絡ください。現状の課題やご希望の対象地域について簡単な確認を行います。</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm relative">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-brand-dark text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                    <h4 class="font-bold text-lg mt-4 mb-2 text-center">画面デモ・ご提案</h4>
+                    <p class="text-slate-600 text-sm text-center leading-relaxed">実際の管理画面や、過去に御社の地域でどのような補助金が抽出されたか（デモ）をお見せします。</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm relative border-b-4 border-b-brand-accent">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-brand-accent text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                    <h4 class="font-bold text-lg mt-4 mb-2 text-center">アカウント発行・開始</h4>
+                    <p class="text-slate-600 text-sm text-center leading-relaxed">お申し込み後、最短当日にアカウントを発行。その日から自動抽出とLINEへの通知がスタートします。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 px-6 bg-slate-950 text-white">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 reveal">
+            <div>
+                <h3 class="text-2xl font-bold mb-8 border-b border-slate-800 pb-4">運営元情報</h3>
+                <table class="w-full text-sm text-slate-400">
+                    <tbody class="divide-y divide-slate-800">
+                        <tr><th class="py-4 text-left w-32 font-normal">サービス名</th><td class="py-4 font-bold text-white">SUMIA (スミア)</td></tr>
+                        <tr><th class="py-4 text-left font-normal">提供形態</th><td class="py-4">AI補助金トラッキングSaaS</td></tr>
+                        <tr><th class="py-4 text-left font-normal">料金</th><td class="py-4">月額 19,800円 (税別)</td></tr>
+                        <tr><th class="py-4 text-left font-normal">連絡先</th><td class="py-4">info@sumia-example.com</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="bg-slate-900 p-8 rounded-xl border border-slate-800 flex flex-col justify-center">
+                <h3 class="text-xl font-bold mb-4 text-center">導入のご相談・デモ依頼</h3>
+                <p class="text-slate-400 text-sm mb-8 text-center">
+                    実際のダッシュボード画面や、自社地域での補助金抽出テストをご希望の方は、お問い合わせ窓口よりご連絡ください。
+                </p>
+                <a href="mailto:info@sumia-example.com" class="block w-full bg-brand-accent hover:bg-blue-600 text-white text-center font-bold py-4 rounded-lg transition-colors shadow-lg">
+                    お問い合わせ窓口へ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-8 text-center text-slate-600 text-sm border-t border-slate-900">
+        <p>&copy; 2026 SUMIA. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in-up');
+                        entry.target.classList.remove('reveal');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
