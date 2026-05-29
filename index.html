@@ -465,17 +465,17 @@
                   </div>
                 </div>
                 <div class="flex items-start gap-3">
-                  <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">2</span>
+                  <span class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">2</span>
                   <div>
-                    <p class="font-bold text-white mb-0.5">顧客とのマッチングを自動通知</p>
-                    <p class="text-slate-400 text-xs leading-relaxed">既存の顧客台帳をAIが照合し、補助金が使えそうな顧客を自動で検出してお知らせ</p>
+                    <p class="font-bold text-white mb-0.5">申請期限アラートも通知</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">予算上限が近い補助金や申請締切が迫っている案件を、見逃す前にLINEでお知らせ</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3">
-                  <span class="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">3</span>
+                  <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">3</span>
                   <div>
                     <p class="font-bold text-white mb-0.5">AIが提案文を自動生成</p>
-                    <p class="text-slate-400 text-xs leading-relaxed">施主へのLINEメッセージをAIが要項から自動作成。コピーしてそのまま送れる状態で届く</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">施主へのLINEメッセージをAIが要項から自動作成。ダッシュボードの案件管理からコピーして送信</p>
                   </div>
                 </div>
               </div>
@@ -489,9 +489,19 @@
                   <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;">
                     <!-- LINE ヘッダー -->
                     <div style="background:#00b900;padding:22px 12px 8px;display:flex;align-items:center;gap:9px;flex-shrink:0;">
-                      <div style="width:36px;height:36px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#00b900;flex-shrink:0;">S</div>
+                      <div style="width:36px;height:36px;border-radius:8px;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:5px;">
+                        <svg viewBox="0 0 400 400" fill="#00b900" width="100%" height="100%">
+                          <rect x="40" y="40" width="100" height="100" />
+                          <rect x="268" y="268" width="84" height="84" fill="none" stroke="#00b900" stroke-width="16" />
+                          <rect x="160" y="40" width="80" height="320" />
+                          <rect x="40" y="160" width="320" height="80" />
+                          <line x1="200" y1="36" x2="200" y2="364" stroke="white" stroke-width="6" />
+                          <line x1="36" y1="200" x2="364" y2="200" stroke="white" stroke-width="6" />
+                          <polygon points="200,164 236,200 200,236 164,200" fill="#00b900" stroke="white" stroke-width="6" stroke-linejoin="miter" />
+                        </svg>
+                      </div>
                       <div>
-                        <p style="color:white;font-size:13px;font-weight:800;margin:0;line-height:1.2;">SUMIA アシスタント</p>
+                        <p style="color:white;font-size:13px;font-weight:800;margin:0;line-height:1.2;">SUMIA補助金通知</p>
                         <p style="color:rgba(255,255,255,0.7);font-size:10px;margin:0;">Official Account</p>
                       </div>
                     </div>
@@ -530,30 +540,22 @@
             label: '📢 新着補助金',
             labelColor: '#14b87a',
             lines: [
-              { bold: true, text: '令和6年度 子育てエコホーム支援事業' },
+              { bold: true, text: '子育てエコホーム支援事業（改修）' },
               { text: '💰 最大60万円補助' },
               { text: '🎯 窓・断熱・給湯器改修' },
-              { text: '⚠️ 予算上限次第で締切' },
+              { text: '⚠️ 予算上限次第で即終了' },
             ],
             cta: '詳細を確認する →'
           },
           {
-            label: '🤝 顧客マッチング完了',
-            labelColor: '#3b82f6',
+            label: '⏰ 申請期限アラート',
+            labelColor: '#f59e0b',
             lines: [
-              { bold: true, text: '田中 一郎様が補助金の対象になる可能性があります' },
-              { text: '適合度: 95%' },
-              { text: '推定補助額: 最大60万円' },
+              { bold: true, text: '給湯省エネ2024事業 — 予算残りわずか' },
+              { text: '現在の消化率が80%を超えました。' },
+              { text: '受付終了前に手続きを進めてください。' },
             ],
-            cta: '提案文を生成する →'
-          },
-          {
-            label: '💬 AI提案文を自動作成',
-            labelColor: '#8b5cf6',
-            lines: [
-              { text: '田中様、先日ご相談いただいた断熱改修の件ですが、「子育てエコホーム支援事業」という国の補助金が使える可能性があります。最大60万円の補助が受けられるケースもあり…' },
-            ],
-            cta: 'コピーしてLINEで送信 →'
+            cta: 'ダッシュボードで確認 →'
           },
         ];
 
