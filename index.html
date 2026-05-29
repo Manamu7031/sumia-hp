@@ -79,10 +79,15 @@
                 </svg>
                 <span class="text-[22px] font-black tracking-widest text-brand-dark leading-none pt-0.5">SUMIA</span>
             </a>
-            <a href="#contact" class="text-sm font-bold bg-brand-accent text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition-colors">お問い合わせ</a>
+            <div class="flex items-center gap-1.5">
+                <button onclick="switchMainTab('lp')" id="maintab-btn-lp" class="maintab-btn text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all bg-slate-800 text-white">製品紹介</button>
+                <button onclick="switchMainTab('demo')" id="maintab-btn-demo" class="maintab-btn text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">体験版</button>
+                <button onclick="switchMainTab('payment')" id="maintab-btn-payment" class="maintab-btn text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all bg-brand-accent text-white hover:bg-blue-600">料金・申し込み</button>
+            </div>
         </div>
     </header>
 
+    <div id="maintab-lp" class="lp-part">
     <section class="relative pt-24 pb-32 px-6 bg-brand-dark text-white overflow-hidden">
         <div class="absolute inset-0 bg-grid-pattern"></div>
         <div class="absolute top-[-20%] left-[-10%] w-[60%] h-[70%] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -405,7 +410,9 @@
         </div>
     </section>
 
-    <!-- ===== 体験デモセクション ===== -->
+    </div><!-- /maintab-lp -->
+
+    <div id="maintab-demo" style="display:none">
     <section id="demo" class="py-24 px-6 bg-brand-dark text-white border-t border-slate-800 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-full bg-grid-pattern pointer-events-none"></div>
       <div class="absolute top-[-20%] right-[-10%] w-[50%] h-[70%] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -553,19 +560,16 @@
           }
         }
 
-        // 初回: LINEタブのiframeをロード
-        document.addEventListener('DOMContentLoaded', () => {
-          const liffIframe = document.getElementById('liff-demo-iframe');
-          liffIframe.src = liffIframe.dataset.src;
-        });
+        // 体験タブ内でLINEタブが選ばれた時のみロード（メインタブの切り替えで管理）
       </script>
 
       <style>
         .demo-tab-panel { transition: opacity 0.2s ease; }
       </style>
     </section>
-    <!-- ===== /体験デモセクション ===== -->
+    </div><!-- /maintab-demo -->
 
+    <div id="maintab-lp-cont" class="lp-part">
     <section id="pricing" class="py-24 px-6 bg-slate-900 text-white border-t border-slate-800">
         <div class="max-w-5xl mx-auto reveal text-center">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">PRICING</h2>
@@ -714,6 +718,59 @@
     <footer class="bg-black py-8 text-center text-slate-600 text-sm border-t border-slate-900">
         <p>&copy; 2026 SUMIA. All Rights Reserved.</p>
     </footer>
+    </div><!-- /maintab-lp-cont -->
+
+    <!-- ===== 料金・申し込みタブ ===== -->
+    <div id="maintab-payment" style="display:none; min-height:100vh; background:#0b0d14;">
+        <iframe
+            id="payment-iframe"
+            src="about:blank"
+            data-src="https://lumia-builder-portal.vercel.app/pricing"
+            style="width:100%; min-height:100vh; border:none; display:block;"
+            title="SUMIA 料金・お申し込み"
+        ></iframe>
+    </div>
+
+    <script>
+        // ===== メインタブ切り替え =====
+        function switchMainTab(tab) {
+            // LP コンテンツ
+            document.querySelectorAll('.lp-part').forEach(el => {
+                el.style.display = tab === 'lp' ? '' : 'none';
+            });
+            // 体験版
+            document.getElementById('maintab-demo').style.display = tab === 'demo' ? '' : 'none';
+            // 料金・申し込み
+            document.getElementById('maintab-payment').style.display = tab === 'payment' ? '' : 'none';
+
+            // ボタンスタイル
+            document.querySelectorAll('.maintab-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'text-white', 'bg-[#00b900]', 'bg-brand-accent', 'bg-indigo-600');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            const activeBtn = document.getElementById('maintab-btn-' + tab);
+            activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+            if (tab === 'lp')      activeBtn.classList.add('bg-slate-800', 'text-white');
+            if (tab === 'demo')    activeBtn.classList.add('bg-[#00b900]', 'text-white');
+            if (tab === 'payment') activeBtn.classList.add('bg-indigo-600', 'text-white');
+
+            // iframe の遅延ロード（初回のみ）
+            if (tab === 'demo') {
+                const liffIframe = document.getElementById('liff-demo-iframe');
+                if (liffIframe && liffIframe.src === 'about:blank') {
+                    liffIframe.src = liffIframe.dataset.src;
+                }
+            }
+            if (tab === 'payment') {
+                const payIframe = document.getElementById('payment-iframe');
+                if (payIframe && payIframe.src === 'about:blank') {
+                    payIframe.src = payIframe.dataset.src;
+                }
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
