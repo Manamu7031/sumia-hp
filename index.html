@@ -452,47 +452,53 @@
         <div id="demo-tab-line" class="demo-tab-panel reveal">
           <div class="flex flex-col md:flex-row items-center gap-10">
             <!-- 説明 -->
-            <div class="md:w-2/5 text-left">
-              <h4 class="text-xl md:text-2xl font-black mb-4 leading-tight">
-                LINEを友達追加して<br>初期設定をしてみよう
+            <div class="md:w-2/5 text-left space-y-5">
+              <h4 class="text-xl md:text-2xl font-black leading-tight">
+                こんな通知が<br>LINEに届きます
               </h4>
-              <ul class="space-y-3 text-sm text-slate-300">
-                <li class="flex items-start gap-2"><span class="text-emerald-400 font-bold mt-0.5 shrink-0">①</span> 都道府県・市町村を選択</li>
-                <li class="flex items-start gap-2"><span class="text-emerald-400 font-bold mt-0.5 shrink-0">②</span> 工事種別を選択</li>
-                <li class="flex items-start gap-2"><span class="text-emerald-400 font-bold mt-0.5 shrink-0">③</span> 会社情報を入力</li>
-                <li class="flex items-start gap-2"><span class="text-emerald-400 font-bold mt-0.5 shrink-0">④</span> 登録完了 → LINE通知の演出を確認</li>
-              </ul>
-              <p class="text-xs text-slate-500 mt-4">※ デモのため実際には送信されません。ブラウザ内で完結します。</p>
+              <div class="space-y-4 text-sm">
+                <div class="flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">1</span>
+                  <div>
+                    <p class="font-bold text-white mb-0.5">新着補助金をリアルタイム通知</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">登録した地域・工事種別にマッチする補助金が公開され次第、AIが要項を解析してLINEへ即送信</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">2</span>
+                  <div>
+                    <p class="font-bold text-white mb-0.5">顧客とのマッチングを自動通知</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">既存の顧客台帳をAIが照合し、補助金が使えそうな顧客を自動で検出してお知らせ</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 font-black text-xs mt-0.5">3</span>
+                  <div>
+                    <p class="font-bold text-white mb-0.5">AIが提案文を自動生成</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">施主へのLINEメッセージをAIが要項から自動作成。コピーしてそのまま送れる状態で届く</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- スマホ額縁 + iframe -->
+            <!-- スマホ額縁（アニメーション通知デモ） -->
             <div class="md:w-3/5 flex justify-center">
-              <div class="relative" style="width:300px;">
-                <!-- 電話の外枠 -->
-                <div style="
-                  width:300px;
-                  height:620px;
-                  background:#1a1a1a;
-                  border-radius:44px;
-                  padding:12px;
-                  box-shadow:0 32px 80px rgba(0,0,0,0.6), inset 0 0 0 2px #333;
-                  position:relative;
-                ">
-                  <!-- ノッチ -->
-                  <div style="position:absolute;top:16px;left:50%;transform:translateX(-50%);width:80px;height:6px;background:#111;border-radius:99px;z-index:10;"></div>
-                  <!-- 画面 -->
-                  <div style="width:100%;height:100%;background:#f6f8fc;border-radius:34px;overflow:hidden;position:relative;">
-                    <iframe
-                      id="liff-demo-iframe"
-                      src="about:blank"
-                      data-src="https://lumia-builder-portal.vercel.app/liff/index.html?demo=true"
-                      style="width:100%;height:100%;border:none;"
-                      allow="clipboard-write"
-                      title="SUMIA LINE初期登録デモ"
-                    ></iframe>
+              <div style="width:300px;">
+                <div style="width:300px;height:580px;background:#1a1a1a;border-radius:44px;padding:10px;box-shadow:0 32px 80px rgba(0,0,0,0.6),inset 0 0 0 2px #333;position:relative;">
+                  <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);width:70px;height:5px;background:#111;border-radius:99px;z-index:10;"></div>
+                  <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;">
+                    <!-- LINE ヘッダー -->
+                    <div style="background:#00b900;padding:22px 12px 8px;display:flex;align-items:center;gap:9px;flex-shrink:0;">
+                      <div style="width:36px;height:36px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#00b900;flex-shrink:0;">S</div>
+                      <div>
+                        <p style="color:white;font-size:13px;font-weight:800;margin:0;line-height:1.2;">SUMIA アシスタント</p>
+                        <p style="color:rgba(255,255,255,0.7);font-size:10px;margin:0;">Official Account</p>
+                      </div>
+                    </div>
+                    <!-- チャット背景 -->
+                    <div id="line-chat-area" style="flex:1;overflow:hidden;padding:12px 10px 8px;display:flex;flex-direction:column;gap:8px;background:#7494a8;position:relative;"></div>
                   </div>
-                  <!-- ホームボタン風 -->
-                  <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:100px;height:4px;background:#333;border-radius:99px;"></div>
+                  <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:90px;height:4px;background:#333;border-radius:99px;"></div>
                 </div>
               </div>
             </div>
@@ -505,20 +511,12 @@
             <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-full text-xs font-bold">🧪 デモモード</span>
             <span>データはブラウザ内のみ。操作・編集は自由にできます。</span>
           </div>
-          <div style="
-            width:100%;
-            height:680px;
-            border-radius:20px;
-            overflow:hidden;
-            border:1px solid rgba(255,255,255,0.1);
-            box-shadow:0 32px 80px rgba(0,0,0,0.5);
-            background:#f4f5f7;
-          ">
+          <div id="dashboard-scale-outer" style="width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 32px 80px rgba(0,0,0,0.5);background:#f4f5f7;">
             <iframe
               id="dashboard-demo-iframe"
               src="about:blank"
               data-src="https://lumia-builder-portal.vercel.app/demo"
-              style="width:100%;height:100%;border:none;"
+              style="border:none;display:block;transform-origin:top left;"
               title="SUMIAダッシュボードデモ"
             ></iframe>
           </div>
@@ -526,41 +524,120 @@
       </div>
 
       <script>
-        let demoTabLoaded = { line: false, dashboard: false };
+        // ===== LINE アニメーションデモ =====
+        var LINE_MSGS = [
+          {
+            label: '📢 新着補助金',
+            labelColor: '#14b87a',
+            lines: [
+              { bold: true, text: '令和6年度 子育てエコホーム支援事業' },
+              { text: '💰 最大60万円補助' },
+              { text: '🎯 窓・断熱・給湯器改修' },
+              { text: '⚠️ 予算上限次第で締切' },
+            ],
+            cta: '詳細を確認する →'
+          },
+          {
+            label: '🤝 顧客マッチング完了',
+            labelColor: '#3b82f6',
+            lines: [
+              { bold: true, text: '田中 一郎様が補助金の対象になる可能性があります' },
+              { text: '適合度: 95%' },
+              { text: '推定補助額: 最大60万円' },
+            ],
+            cta: '提案文を生成する →'
+          },
+          {
+            label: '💬 AI提案文を自動作成',
+            labelColor: '#8b5cf6',
+            lines: [
+              { text: '田中様、先日ご相談いただいた断熱改修の件ですが、「子育てエコホーム支援事業」という国の補助金が使える可能性があります。最大60万円の補助が受けられるケースもあり…' },
+            ],
+            cta: 'コピーしてLINEで送信 →'
+          },
+        ];
 
+        var _lineTimer = null;
+
+        function startLineAnimation() {
+          var area = document.getElementById('line-chat-area');
+          if (!area) return;
+          if (_lineTimer) clearTimeout(_lineTimer);
+          area.innerHTML = '';
+          var idx = 0;
+
+          function showMsg() {
+            if (idx >= LINE_MSGS.length) {
+              _lineTimer = setTimeout(function() {
+                area.innerHTML = '';
+                idx = 0;
+                showMsg();
+              }, 1800);
+              return;
+            }
+            var m = LINE_MSGS[idx];
+            var d = document.createElement('div');
+            d.style.cssText = 'background:white;border-radius:2px 12px 12px 12px;padding:9px 11px;max-width:92%;opacity:0;transform:translateY(10px);transition:opacity 0.4s ease,transform 0.4s ease;font-size:11px;line-height:1.5;flex-shrink:0;';
+            var html = '<div style="font-size:10px;font-weight:800;color:' + m.labelColor + ';margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid #f0f0f0;">' + m.label + '</div>';
+            m.lines.forEach(function(l) {
+              html += l.bold
+                ? '<p style="font-weight:800;color:#111;margin:0 0 2px;">' + l.text + '</p>'
+                : '<p style="color:#555;margin:0 0 2px;">' + l.text + '</p>';
+            });
+            if (m.cta) {
+              html += '<div style="margin-top:7px;padding-top:5px;border-top:1px solid #f0f0f0;color:#00b900;font-weight:800;font-size:10px;">' + m.cta + '</div>';
+            }
+            d.innerHTML = html;
+            area.appendChild(d);
+            setTimeout(function() { d.style.opacity = '1'; d.style.transform = 'translateY(0)'; }, 40);
+            idx++;
+            _lineTimer = setTimeout(showMsg, 2200);
+          }
+          showMsg();
+        }
+
+        // ===== ダッシュボード スケーリング =====
+        function scaleDashboard() {
+          var outer = document.getElementById('dashboard-scale-outer');
+          var iframe = document.getElementById('dashboard-demo-iframe');
+          if (!outer || !iframe) return;
+          var containerW = outer.offsetWidth;
+          var nativeW = 1280;
+          var nativeH = 880;
+          var scale = containerW / nativeW;
+          iframe.style.width  = nativeW + 'px';
+          iframe.style.height = nativeH + 'px';
+          iframe.style.transform = 'scale(' + scale + ')';
+          outer.style.height = Math.round(nativeH * scale) + 'px';
+        }
+        window.addEventListener('resize', scaleDashboard);
+
+        // ===== デモ内タブ切り替え =====
         function switchDemoTab(tab) {
-          // パネル切り替え
-          document.querySelectorAll('.demo-tab-panel').forEach(el => {
+          document.querySelectorAll('.demo-tab-panel').forEach(function(el) {
             el.classList.add('hidden');
           });
           document.getElementById('demo-tab-' + tab).classList.remove('hidden');
 
-          // ボタンスタイル切り替え
-          document.querySelectorAll('.demo-tab-btn').forEach(btn => {
+          document.querySelectorAll('.demo-tab-btn').forEach(function(btn) {
             btn.classList.remove('active-demo-btn', 'bg-[#00b900]', 'text-white', 'border-[#009900]', 'bg-blue-600', 'border-blue-500');
             btn.classList.add('bg-slate-800', 'text-slate-400', 'border-slate-700');
           });
-
-          const activeBtn = document.getElementById('demo-btn-' + tab);
+          var activeBtn = document.getElementById('demo-btn-' + tab);
           activeBtn.classList.remove('bg-slate-800', 'text-slate-400', 'border-slate-700');
           if (tab === 'line') {
             activeBtn.classList.add('bg-[#00b900]', 'text-white', 'border-[#009900]');
+            startLineAnimation();
           } else {
             activeBtn.classList.add('bg-blue-600', 'text-white', 'border-blue-500');
-          }
-
-          // iframeを初回表示時にロード（遅延読み込みで高速化）
-          // タブを切り替えるたびにリロード → 常に初期状態
-          if (tab === 'line') {
-            const iframe = document.getElementById('liff-demo-iframe');
-            iframe.src = iframe.dataset.src;
-          } else {
-            const iframe = document.getElementById('dashboard-demo-iframe');
-            iframe.src = iframe.dataset.src;
+            var iframe = document.getElementById('dashboard-demo-iframe');
+            if (iframe && iframe.src === 'about:blank') {
+              iframe.src = iframe.dataset.src;
+              iframe.onload = scaleDashboard;
+            }
+            scaleDashboard();
           }
         }
-
-        // 体験タブ内でLINEタブが選ばれた時のみロード（メインタブの切り替えで管理）
       </script>
 
       <style>
@@ -754,12 +831,9 @@
             if (tab === 'demo')    activeBtn.classList.add('bg-[#00b900]', 'text-white');
             if (tab === 'payment') activeBtn.classList.add('bg-indigo-600', 'text-white');
 
-            // iframe の遅延ロード（初回のみ）
+            // 体験版タブを開いた時：LINEアニメーション開始
             if (tab === 'demo') {
-                const liffIframe = document.getElementById('liff-demo-iframe');
-                if (liffIframe && liffIframe.src === 'about:blank') {
-                    liffIframe.src = liffIframe.dataset.src;
-                }
+                startLineAnimation();
             }
             if (tab === 'payment') {
                 const payIframe = document.getElementById('payment-iframe');
