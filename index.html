@@ -180,11 +180,11 @@
 </head>
 <body class="bg-slate-50 text-slate-800 leading-relaxed break-words">
 
-    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 py-4 px-6 sticky top-0 z-50">
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 py-3 md:py-4 px-3 md:px-6 sticky top-0 z-50">
         <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <a href="#" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <a href="#" class="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity shrink-0">
                 <!-- パンフレット版の最新SVGロゴ（マーク部分のみを viewBox="0 0 400 400" で抽出） -->
-                <svg viewBox="0 0 400 400" class="h-8 text-brand-dark block shrink-0" fill="currentColor">
+                <svg viewBox="0 0 400 400" class="h-7 md:h-8 text-brand-dark block shrink-0" fill="currentColor">
                     <rect x="40" y="40" width="100" height="100" fill="currentColor" />
                     <rect x="268" y="268" width="84" height="84" fill="none" stroke="currentColor" stroke-width="16" />
                     <rect x="160" y="40" width="80" height="320" fill="currentColor" />
@@ -193,37 +193,37 @@
                     <line x1="36" y1="200" x2="364" y2="200" stroke="#ffffff" stroke-width="6" />
                     <polygon points="200,164 236,200 200,236 164,200" fill="currentColor" stroke="#ffffff" stroke-width="6" stroke-linejoin="miter" />
                 </svg>
-                <span class="text-[22px] font-black tracking-widest text-brand-dark leading-none pt-0.5">SUMIA</span>
+                <span class="text-[18px] md:text-[22px] font-black tracking-widest text-brand-dark leading-none pt-0.5">SUMIA</span>
             </a>
-            <div class="flex items-center gap-1.5">
-                <button onclick="switchMainTab('lp')" id="maintab-btn-lp" class="maintab-btn text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all bg-slate-800 text-white">製品紹介</button>
-                <button onclick="switchMainTab('demo')" id="maintab-btn-demo" class="maintab-btn text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">体験版</button>
-                <button onclick="switchMainTab('payment')" id="maintab-btn-payment" class="maintab-btn text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all bg-brand-accent text-white hover:bg-blue-600">料金・申し込み</button>
-                <a href="https://lumia-builder-portal.vercel.app/login" target="_blank" rel="noopener noreferrer" class="text-xs md:text-sm font-bold px-3 md:px-4 py-2 rounded-full transition-all border border-slate-300 text-slate-600 hover:bg-slate-100">ログイン</a>
+            <div class="flex items-center gap-1 md:gap-1.5">
+                <button onclick="switchMainTab('lp')" id="maintab-btn-lp" class="maintab-btn text-[10px] md:text-sm font-bold px-2 md:px-4 py-1.5 md:py-2 rounded-full transition-all bg-slate-800 text-white whitespace-nowrap">製品紹介</button>
+                <button onclick="switchMainTab('demo')" id="maintab-btn-demo" class="maintab-btn text-[10px] md:text-sm font-bold px-2 md:px-4 py-1.5 md:py-2 rounded-full transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">体験版</button>
+                <button onclick="switchMainTab('payment')" id="maintab-btn-payment" class="maintab-btn text-[10px] md:text-sm font-bold px-2 md:px-4 py-1.5 md:py-2 rounded-full transition-all bg-brand-accent text-white hover:bg-blue-600 whitespace-nowrap"><span class="hidden sm:inline">料金・</span>申し込み</button>
+                <a href="https://lumia-builder-portal.vercel.app/login" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-block text-[10px] md:text-sm font-bold px-2 md:px-4 py-1.5 md:py-2 rounded-full transition-all border border-slate-300 text-slate-600 hover:bg-slate-100 whitespace-nowrap">ログイン</a>
             </div>
         </div>
     </header>
 
     <div id="maintab-lp" class="lp-part">
-    <section class="relative pt-24 pb-32 px-6 bg-brand-dark text-white overflow-hidden">
+    <section class="relative pt-16 md:pt-24 pb-20 md:pb-32 px-4 md:px-6 bg-brand-dark text-white overflow-hidden">
         <div class="absolute inset-0 bg-grid-pattern"></div>
         <div class="absolute top-[-20%] left-[-10%] w-[60%] h-[70%] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="absolute bottom-[-10%] right-[10%] w-[50%] h-[50%] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"></div>
-        
-        <div class="max-w-5xl mx-auto relative z-10 grid md:grid-cols-2 gap-12 items-center">
+
+        <div class="max-w-5xl mx-auto relative z-10 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div class="reveal">
-                <span class="inline-block py-1 px-3 border border-blue-500/50 bg-blue-500/10 text-blue-400 text-sm font-bold rounded-full mb-6">
+                <span class="inline-block py-1 px-3 border border-blue-500/50 bg-blue-500/10 text-blue-400 text-xs md:text-sm font-bold rounded-full mb-4 md:mb-6">
                     圧倒的な業務効率化と成約率向上を実現
                 </span>
-                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-8 tracking-tight">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6 md:mb-8 tracking-tight">
                     <span class="inline-block">AIが、</span><span class="inline-block">建設業の</span><span class="inline-block">補助金探しを</span><span class="inline-block">終わらせる。</span>
                 </h1>
-                <p class="text-lg text-slate-300 leading-relaxed mb-10">
+                <p class="text-base md:text-lg text-slate-300 leading-relaxed mb-8 md:mb-10">
                     <span class="inline-block">探す手間ゼロ。</span><span class="inline-block">営業トークもAIが自動生成。</span><br>
                     <span class="inline-block">月額19,800円で、</span><span class="inline-block">機会損失を完全に防ぐ</span><span class="inline-block">ダッシュボード。</span>
                 </p>
                 <div class="flex gap-4">
-                    <a href="#contact" class="inline-block bg-brand-accent hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-lg transition-colors shadow-lg">無料デモを申し込む</a>
+                    <a href="#contact" class="inline-block bg-brand-accent hover:bg-blue-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-lg transition-colors shadow-lg">無料デモを申し込む</a>
                 </div>
             </div>
             
@@ -241,14 +241,14 @@
         </div>
     </section>
 
-    <section class="py-24 px-6 bg-white border-b border-slate-100">
+    <section class="py-16 md:py-24 px-4 md:px-6 bg-white border-b border-slate-100">
         <div class="max-w-4xl mx-auto text-center reveal">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-4">ABOUT SUMIA</h2>
-            <h3 class="text-3xl md:text-4xl font-bold mb-8 text-brand-dark leading-tight">
+            <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-brand-dark leading-tight">
                 <span class="inline-block">補助金を「探す」</span><span class="inline-block">ツールではなく、</span><br class="hidden md:block">
                 <span class="inline-block">補助金で「売上を作る」ための</span><span class="inline-block">AI営業支援システムです。</span>
             </h3>
-            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto text-left md:text-center">
+            <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto text-left md:text-center">
                 SUMIA（スミア）は、建設業界・工務店様のために開発された特化型AIサービスです。
                 複雑で膨大な補助金データベースから、御社の施工地域・工事内容に合致する案件だけをピンポイントで抽出。
                 ただ情報を通知するだけでなく、AIが「施主様にそのまま送れる営業トーク」へと自動変換します。
@@ -257,12 +257,12 @@
         </div>
     </section>
 
-    <section class="pt-24 pb-12 px-6 bg-slate-50">
+    <section class="pt-16 md:pt-24 pb-8 md:pb-12 px-4 md:px-6 bg-slate-50">
         <div class="max-w-5xl mx-auto text-center reveal">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">ISSUES</h2>
-            <h3 class="text-3xl font-bold mb-16 text-brand-dark">現場が抱える構造的な課題</h3>
+            <h3 class="text-2xl md:text-3xl font-bold mb-10 md:mb-16 text-brand-dark">現場が抱える構造的な課題</h3>
         </div>
-        <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 reveal delay-100">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-4 md:gap-8 reveal delay-100">
             <div class="p-8 bg-white border border-slate-200 rounded-xl hover:shadow-lg transition-shadow">
                 <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -287,7 +287,7 @@
         </div>
     </section>
 
-    <section class="pb-24 pt-12 px-6 bg-slate-50">
+    <section class="pb-16 md:pb-24 pt-8 md:pt-12 px-4 md:px-6 bg-slate-50">
         <div class="max-w-5xl mx-auto reveal">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="grid md:grid-cols-2">
@@ -340,10 +340,10 @@
         </div>
     </section>
 
-    <section id="features" class="py-24 px-4 md:px-6 bg-brand-dark text-white relative border-t border-slate-800">
-        <div class="max-w-5xl mx-auto text-center mb-12">
+    <section id="features" class="py-16 md:py-24 px-4 md:px-6 bg-brand-dark text-white relative border-t border-slate-800">
+        <div class="max-w-5xl mx-auto text-center mb-8 md:mb-12">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">CORE FEATURES</h2>
-            <h3 class="text-3xl md:text-4xl font-black tracking-tight mb-6 leading-tight">AIが営業基盤を<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">完全にアップデート</span></h3>
+            <h3 class="text-2xl md:text-4xl font-black tracking-tight mb-4 md:mb-6 leading-tight">AIが営業基盤を<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">完全にアップデート</span></h3>
             <div class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed space-y-4">
                 <p>単なる補助金検索ツールではありません。</p>
                 <p>調査から提案、案件管理に至るまで手作業を完全に排除する「工務店特化の営業OS」です。</p>
@@ -353,9 +353,9 @@
         <div class="max-w-5xl mx-auto">
             <!-- Tabs Button -->
             <div class="flex flex-col md:flex-row justify-center gap-3 mb-10 md:mb-12 reveal px-2">
-                <button onclick="switchTab('tab-line')" id="btn-tab-line" class="feature-tab-btn active w-full md:w-auto bg-blue-600 text-white font-bold py-3.5 md:py-4 px-6 rounded-xl md:rounded-full shadow-lg border border-blue-500 transition-colors text-sm md:text-base flex items-center justify-center gap-2"><svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.14 2 11.25c0 2.865 1.523 5.424 3.866 7.108.397.286.963 1.096.86 1.666-.033.184-.396 1.897-.478 2.29-.115.545.485.45.673.342.146-.084 1.954-1.127 2.766-1.597l.192-.11c1.196.347 2.476.541 3.815.541 5.523 0 10-4.14 10-9.25S17.523 2 12 2z"/></svg>LINE通知・トーク</button>
-                <button onclick="switchTab('tab-kanban')" id="btn-tab-kanban" class="feature-tab-btn w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-3.5 md:py-4 px-6 rounded-xl md:rounded-full border border-slate-700 hover:bg-slate-700 transition-colors text-sm md:text-base">AIカンバン・ToDo</button>
-                <button onclick="switchTab('tab-matching')" id="btn-tab-matching" class="feature-tab-btn w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-3.5 md:py-4 px-6 rounded-xl md:rounded-full border border-slate-700 hover:bg-slate-700 transition-colors text-sm md:text-base">自動照合(マッチング)</button>
+                <button onclick="switchTab('tab-line')" id="btn-tab-line" class="feature-tab-btn active w-full md:w-auto bg-blue-600 text-white font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl md:rounded-full shadow-lg border border-blue-500 transition-colors text-sm md:text-base flex items-center justify-center gap-2"><svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.14 2 11.25c0 2.865 1.523 5.424 3.866 7.108.397.286.963 1.096.86 1.666-.033.184-.396 1.897-.478 2.29-.115.545.485.45.673.342.146-.084 1.954-1.127 2.766-1.597l.192-.11c1.196.347 2.476.541 3.815.541 5.523 0 10-4.14 10-9.25S17.523 2 12 2z"/></svg>LINE通知・トーク</button>
+                <button onclick="switchTab('tab-kanban')" id="btn-tab-kanban" class="feature-tab-btn w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl md:rounded-full border border-slate-700 hover:bg-slate-700 transition-colors text-sm md:text-base">AIカンバン・ToDo</button>
+                <button onclick="switchTab('tab-matching')" id="btn-tab-matching" class="feature-tab-btn w-full md:w-auto bg-slate-800 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl md:rounded-full border border-slate-700 hover:bg-slate-700 transition-colors text-sm md:text-base">自動照合(マッチング)</button>
             </div>
 
             <!-- Content Area -->
@@ -510,10 +510,10 @@
         </style>
     </section>
 
-    <section class="py-24 px-6 bg-white border-b border-slate-100">
+    <section class="py-16 md:py-24 px-4 md:px-6 bg-white border-b border-slate-100">
         <div class="max-w-4xl mx-auto text-center reveal">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-4">TARGET SUBSIDIES</h2>
-            <h3 class="text-2xl md:text-3xl font-bold mb-10 text-brand-dark">国の主要な補助金から、各自治体の独自案件まで網羅</h3>
+            <h3 class="text-xl md:text-3xl font-bold mb-6 md:mb-10 text-brand-dark">国の主要な補助金から、各自治体の独自案件まで網羅</h3>
             <p class="text-slate-600 mb-10">例えば以下のような、建築・リフォーム業界で需要の高い補助金の公募開始・期限をAIが逃さずキャッチします。</p>
             
             <div class="flex flex-wrap justify-center gap-3">
@@ -530,7 +530,7 @@
     </div><!-- /maintab-lp -->
 
     <div id="maintab-demo" style="display:none">
-    <section id="demo" class="py-24 px-6 bg-brand-dark text-white border-t border-slate-800 relative overflow-hidden">
+    <section id="demo" class="py-16 md:py-24 px-4 md:px-6 bg-brand-dark text-white border-t border-slate-800 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-full bg-grid-pattern pointer-events-none"></div>
       <div class="absolute top-[-20%] right-[-10%] w-[50%] h-[70%] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -599,9 +599,9 @@
             </div>
 
             <!-- スマホ額縁（アニメーション通知デモ） -->
-            <div class="md:w-3/5 flex justify-center">
-              <div style="width:300px;">
-                <div style="width:300px;height:580px;background:#1a1a1a;border-radius:44px;padding:10px;box-shadow:0 32px 80px rgba(0,0,0,0.6),inset 0 0 0 2px #333;position:relative;">
+            <div class="md:w-3/5 flex justify-center w-full">
+              <div style="width:min(300px, 100%); max-width:300px;">
+                <div style="width:100%;height:580px;background:#1a1a1a;border-radius:44px;padding:10px;box-shadow:0 32px 80px rgba(0,0,0,0.6),inset 0 0 0 2px #333;position:relative;">
                   <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);width:70px;height:5px;background:#111;border-radius:99px;z-index:10;"></div>
                   <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;">
                     <!-- LINE ヘッダー -->
@@ -634,18 +634,28 @@
 
         <!-- ダッシュボード タブ -->
         <div id="demo-tab-dashboard" class="demo-tab-panel hidden reveal">
-          <div class="text-center text-sm text-slate-400 mb-4 flex items-center justify-center gap-2">
-            <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-full text-xs font-bold">🧪 デモモード</span>
-            <span>データはブラウザ内のみ。操作・編集は自由にできます。</span>
+          <!-- モバイル向けメッセージ -->
+          <div class="md:hidden text-center py-12 px-4">
+            <div class="text-5xl mb-5">💻</div>
+            <p class="text-white font-bold text-lg mb-3">PC・タブレット推奨</p>
+            <p class="text-slate-400 text-sm leading-relaxed max-w-xs mx-auto">ダッシュボードデモは広い画面でお試しください。<br>スマホからは「無料デモを申し込む」よりご相談ください。</p>
+            <a href="#contact" class="inline-block mt-6 bg-brand-accent text-white font-bold py-3 px-6 rounded-lg text-sm">無料デモを申し込む</a>
           </div>
-          <div id="dashboard-scale-outer" style="width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 32px 80px rgba(0,0,0,0.5);background:#f4f5f7;">
-            <iframe
-              id="dashboard-demo-iframe"
-              src="about:blank"
-              data-src="https://lumia-builder-portal.vercel.app/demo"
-              style="border:none;display:block;transform-origin:top left;"
-              title="SUMIAダッシュボードデモ"
-            ></iframe>
+          <!-- タブレット・PC向けダッシュボード -->
+          <div class="hidden md:block">
+            <div class="text-center text-sm text-slate-400 mb-4 flex items-center justify-center gap-2">
+              <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-full text-xs font-bold">🧪 デモモード</span>
+              <span>データはブラウザ内のみ。操作・編集は自由にできます。</span>
+            </div>
+            <div id="dashboard-scale-outer" style="width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 32px 80px rgba(0,0,0,0.5);background:#f4f5f7;">
+              <iframe
+                id="dashboard-demo-iframe"
+                src="about:blank"
+                data-src="https://lumia-builder-portal.vercel.app/demo"
+                style="border:none;display:block;transform-origin:top left;"
+                title="SUMIAダッシュボードデモ"
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>
@@ -766,10 +776,10 @@
     </div><!-- /maintab-demo -->
 
     <div id="maintab-lp-cont" class="lp-part">
-    <section id="pricing" class="py-24 px-6 bg-slate-900 text-white border-t border-slate-800">
+    <section id="pricing" class="py-16 md:py-24 px-4 md:px-6 bg-slate-900 text-white border-t border-slate-800">
         <div class="max-w-5xl mx-auto reveal text-center">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">PRICING</h2>
-            <h3 class="text-3xl font-bold mb-12">圧倒的なコスト削減と導入メリット</h3>
+            <h3 class="text-2xl md:text-3xl font-bold mb-8 md:mb-12">圧倒的なコスト削減と導入メリット</h3>
             
             <div class="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto text-left">
                 <div class="bg-slate-800 rounded-2xl border border-slate-700 p-8 shadow-xl">
@@ -841,10 +851,10 @@
         </div>
     </section>
 
-    <section class="py-24 px-4 md:px-6 bg-slate-50">
+    <section class="py-16 md:py-24 px-4 md:px-6 bg-slate-50">
         <div class="max-w-5xl mx-auto text-center reveal">
             <h2 class="text-sm font-bold text-brand-accent tracking-widest mb-2">FLOW</h2>
-            <h3 class="text-3xl md:text-4xl font-black mb-12 md:mb-16 text-brand-dark tracking-tight leading-tight">導入はLINEで完結。最短3ステップ。</h3>
+            <h3 class="text-2xl md:text-4xl font-black mb-10 md:mb-16 text-brand-dark tracking-tight leading-tight">導入はLINEで完結。最短3ステップ。</h3>
             
             <div class="grid md:grid-cols-3 gap-6 md:gap-8 relative">
                 <!-- Timeline border for PC -->
@@ -877,8 +887,8 @@
         </div>
     </section>
 
-    <section id="contact" class="py-24 px-6 bg-slate-950 text-white">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 reveal">
+    <section id="contact" class="py-16 md:py-24 px-4 md:px-6 bg-slate-950 text-white">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 reveal">
             <div>
                 <h3 class="text-2xl font-bold mb-8 border-b border-slate-800 pb-4">運営元情報</h3>
                 <table class="w-full text-sm text-slate-400">
@@ -903,7 +913,7 @@
         </div>
     </section>
 
-    <section class="py-12 px-6 bg-slate-950 border-t border-slate-800">
+    <section class="py-10 md:py-12 px-4 md:px-6 bg-slate-950 border-t border-slate-800">
         <div class="max-w-4xl mx-auto text-[11px] text-slate-500 leading-relaxed space-y-2 text-left md:text-center font-medium">
             <p>※ 本サイトに掲載されている画面およびUIは開発中のイメージであり、実際の仕様とは異なる場合があります。</p>
             <p>※ 本システムで扱う顧客データや通信内容は、データの暗号化（pgcrypto等）をはじめとする適切な安全管理措置のもと、厳重に保護・運用されております。</p>
