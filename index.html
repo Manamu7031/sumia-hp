@@ -939,6 +939,11 @@
     <script>
         // ===== メインタブ切り替え =====
         function switchMainTab(tab) {
+            // デモ以外に切り替える時はLINEアニメーションタイマーを停止
+            if (tab !== 'demo' && typeof _lineTimer !== 'undefined' && _lineTimer) {
+                clearTimeout(_lineTimer);
+                _lineTimer = null;
+            }
             // LP コンテンツ
             document.querySelectorAll('.lp-part').forEach(el => {
                 el.style.display = tab === 'lp' ? '' : 'none';
