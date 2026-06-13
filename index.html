@@ -177,6 +177,20 @@
       ]
     }
     </script>
+  <style>
+    @keyframes tutRipple {
+      0%   { transform: scale(1);   opacity: 0.85; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+    @keyframes tutBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(7px); }
+    }
+    @keyframes tutPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 leading-relaxed break-words">
 
@@ -642,18 +656,53 @@
           </div>
           <!-- タブレット・PC向けダッシュボード -->
           <div class="hidden md:block">
-            <div class="text-center text-sm text-slate-400 mb-4 flex items-center justify-center gap-2">
+            <div class="text-center text-sm text-slate-400 mb-4 flex items-center justify-center gap-2 flex-wrap">
               <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-full text-xs font-bold">🧪 デモモード</span>
               <span>データはブラウザ内のみ。操作・編集は自由にできます。</span>
+              <button onclick="tutorialStart()" style="display:inline-flex;align-items:center;gap:5px;background:rgba(99,102,241,0.18);color:#a5b4fc;border:1px solid rgba(99,102,241,0.35);border-radius:999px;padding:3px 12px;font-size:11px;font-weight:800;cursor:pointer;line-height:1.5;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                使い方ガイド
+              </button>
             </div>
-            <div id="dashboard-scale-outer" style="width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 32px 80px rgba(0,0,0,0.5);background:#f4f5f7;">
-              <iframe
-                id="dashboard-demo-iframe"
-                src="about:blank"
-                data-src="https://lumia-builder-portal.vercel.app/demo"
-                style="border:none;display:block;transform-origin:top left;"
-                title="SUMIAダッシュボードデモ"
-              ></iframe>
+            <div id="tut-wrapper" style="position:relative;">
+              <div id="dashboard-scale-outer" style="width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 32px 80px rgba(0,0,0,0.5);background:#f4f5f7;">
+                <iframe
+                  id="dashboard-demo-iframe"
+                  src="about:blank"
+                  data-src="https://lumia-builder-portal.vercel.app/demo"
+                  style="border:none;display:block;transform-origin:top left;"
+                  title="SUMIAダッシュボードデモ"
+                ></iframe>
+              </div>
+              <!-- Tutorial Overlay -->
+              <div id="tut-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:50;display:none;user-select:none;pointer-events:none;border-radius:20px;overflow:hidden;">
+                <div id="tut-sh-top" style="position:absolute;left:0;right:0;top:0;background:rgba(0,0,0,0.72);pointer-events:auto;"></div>
+                <div id="tut-sh-left" style="position:absolute;background:rgba(0,0,0,0.72);pointer-events:auto;"></div>
+                <div id="tut-sh-right" style="position:absolute;background:rgba(0,0,0,0.72);pointer-events:auto;"></div>
+                <div id="tut-sh-bottom" style="position:absolute;left:0;right:0;background:rgba(0,0,0,0.72);pointer-events:auto;"></div>
+                <div id="tut-ring" style="position:absolute;pointer-events:none;display:none;border:2.5px solid rgba(99,102,241,0.9);border-radius:10px;box-shadow:0 0 0 4px rgba(99,102,241,0.15),0 0 20px rgba(99,102,241,0.25);"></div>
+                <div id="tut-beacons" style="position:absolute;inset:0;pointer-events:none;z-index:60;"></div>
+              </div><!-- /tut-overlay -->
+            </div><!-- /tut-wrapper -->
+            <!-- チュートリアル操作バー: 画面下部に固定表示（スクロール不要） -->
+            <div id="tut-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:white;border-top:2px solid #e5e7eb;padding:10px 24px 14px;box-shadow:0 -4px 24px rgba(0,0,0,0.12);">
+              <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;">
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
+                    <span id="tut-step-num" style="font-size:10px;font-weight:800;color:#6366f1;letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;"></span>
+                    <strong id="tut-title" style="font-size:13px;font-weight:900;color:#111827;white-space:nowrap;flex-shrink:0;"></strong>
+                    <span id="tut-desc" style="font-size:12px;color:#6b7280;line-height:1.4;"></span>
+                  </div>
+                  <div id="tut-action" style="display:none;margin-top:4px;padding:4px 10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:12px;font-weight:700;color:#16a34a;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                  <div id="tut-dots" style="display:flex;gap:4px;"></div>
+                  <button id="tut-prev" onclick="tutorialPrev()" style="padding:7px 14px;background:#f3f4f6;color:#374151;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">← 前へ</button>
+                  <button id="tut-next" onclick="tutorialNext()" style="padding:7px 18px;background:#6366f1;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 3px 10px rgba(99,102,241,0.4);">次へ →</button>
+                  <button id="tut-skip" onclick="tutorialClose()" style="background:none;border:none;color:#9ca3af;font-size:11px;cursor:pointer;padding:0 4px;white-space:nowrap;">スキップ</button>
+                  <button onclick="tutorialClose()" style="background:none;border:none;cursor:pointer;color:#9ca3af;padding:2px 4px;font-size:18px;line-height:1;">&times;</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -686,6 +735,9 @@
         ];
 
         var _lineTimer = null;
+        var _tutHasShown = false;
+        var _tutIdx = 0;
+        var _tutActive = false;
 
         function startLineAnimation() {
           var area = document.getElementById('line-chat-area');
@@ -764,8 +816,303 @@
               iframe.onload = scaleDashboard;
             }
             scaleDashboard();
+            if (!_tutHasShown) { _tutHasShown = true; setTimeout(tutorialStart, 900); }
           }
         }
+
+        // ===== チュートリアル =====
+        // 座標はPlaywrightで1280x880のネイティブ解像度で実測
+        var TUT_STEPS = [
+          {
+            title: 'SUMIAダッシュボード 使い方ガイド',
+            desc: '各ページの機能を実際に操作しながら体験できます。「次へ」を押して進めましょう！',
+            highlight: null,
+            page: '/demo',
+          },
+          {
+            title: 'ナビゲーションメニュー',
+            desc: '左のサイドバーから各機能へ移動します。チュートリアルが自動でページを切り替えていきます。',
+            highlight: { x: 0, y: 0, w: 256, h: 880 },
+            page: '/demo',
+          },
+          {
+            title: 'ダッシュボード - 営業KPI',
+            desc: '新規の提案チャンス数・商談化件数・登録顧客数の3つのカードで今日の営業状況が確認できます。',
+            highlight: { x: 288, y: 108, w: 960, h: 228 },
+            page: '/demo',
+          },
+          {
+            title: 'ダッシュボード - 案件ファネル・アクティビティ',
+            desc: '案件ファネルグラフで申請ステージ別の分布が確認でき、右側の最新アクティビティで施主ごとの動きを把握できます。',
+            highlight: { x: 288, y: 350, w: 960, h: 415 },
+            page: '/demo',
+          },
+          {
+            title: 'シミュレーター',
+            desc: '施主の状況と工事内容から受給できる補助金と概算金額を自動計算します。',
+            highlight: { x: 17, y: 125, w: 222, h: 40 },
+            page: '/demo/simulator',
+          },
+          {
+            title: '補助金を計算してみる',
+            desc: '施主の属性と工事内容を選ぶと右側に補助金と合計金額が表示されます。フォームは下にスクロールできます。',
+            highlight: { x: 325, y: 145, w: 268, h: 730 },
+            page: '/demo/simulator',
+            beacons: [
+              { x: 366, y: 387 },
+              { x: 366, y: 784 },
+            ],
+            scrollHint: { x: 459, y: 848 },
+            action: '✋「子育て世帯」と「断熱改修」にチェックを入れて、左パネルを下にスクロールし「補助金を計算する」ボタンを押してください',
+          },
+          {
+            title: '補助金検索',
+            desc: '全国の補助金データベースを横断検索。国の補助金・自治体補助金をまとめて調べられます。',
+            highlight: { x: 17, y: 169, w: 222, h: 40 },
+            page: '/demo/search',
+          },
+          {
+            title: '検索してみる',
+            desc: '検索ボックスにキーワードを入力して「検索」ボタンを押すと、該当する補助金が一覧表示されます。',
+            highlight: { x: 289, y: 105, w: 960, h: 108 },
+            page: '/demo/search',
+            beacons: [{ x: 1197, y: 146 }],
+            action: '✋ 検索ボックスに「断熱」と入力して右の「検索」ボタンを押してください',
+          },
+          {
+            title: '営業トーク・申請要件を確認する',
+            desc: '光っているボタンを押すと施主への説明文と申請要件チェックリストが表示されます。商談でそのまま使えます。',
+            highlight: { x: 289, y: 598, w: 477, h: 70 },
+            page: '/demo/search',
+            beacons: [{ x: 528, y: 633 }],
+            action: '✋ カード下部の「∨ 営業トーク・要件を確認」ボタンを押してください',
+          },
+          {
+            title: '提案チャンス',
+            desc: 'AIが施主台帳と補助金データを照合して今すぐ提案できる案件を自動抽出します。',
+            highlight: { x: 17, y: 213, w: 222, h: 40 },
+            page: '/demo/opportunities',
+          },
+          {
+            title: 'AI再解析してみる',
+            desc: '最新の補助金データで再照合します。解析後に提案候補が更新されます。',
+            highlight: { x: 984, y: 44, w: 130, h: 48 },
+            page: '/demo/opportunities',
+            beacons: [{ x: 1049, y: 68 }],
+            action: '✋ 画面右上の「AI再解析」ボタンを押してください',
+          },
+          {
+            title: 'AIマッチング理由・LINE送信・商談化',
+            desc: 'AIがなぜその補助金を提案したかの理由と、LINEで施主に通知するボタン、商談化ボタンが確認できます。',
+            highlight: { x: 288, y: 256, w: 960, h: 118 },
+            page: '/demo/opportunities',
+            beacons: [{ x: 1215, y: 332 }],
+            action: '✋ 「山本 健太様」の行の一番右「∨」ボタンを押してAIマッチング理由・LINE送信・商談化を確認してください',
+          },
+          {
+            title: '案件管理（パイプライン）',
+            desc: '補助金申請の進捗を施主ごとにカード形式で管理。①商談→②予約申請→③着工→④交付申請→⑤交付完了まで追跡できます。',
+            highlight: { x: 17, y: 257, w: 222, h: 40 },
+            page: '/demo/pipeline',
+          },
+          {
+            title: 'ドラッグで進捗を更新',
+            desc: 'カードを隣の列にドラッグすると申請ステージが更新されます。',
+            highlight: { x: 288, y: 108, w: 960, h: 600 },
+            page: '/demo/pipeline',
+            beacons: [{ x: 438, y: 255 }],
+            action: '✋「田中 一郎様 邸」カードを右の「②予約申請・予算確保」列へドラッグして申請ステージを進めてください',
+          },
+          {
+            title: 'ToDoリストを確認する',
+            desc: '光っているボタンを押すとToDoリスト・フェーズ変更・AIマッチング理由・LINE送信が確認できます。',
+            highlight: { x: 295, y: 295, w: 298, h: 58 },
+            page: '/demo/pipeline',
+            beacons: [{ x: 444, y: 324 }],
+            action: '✋「田中 一郎様 邸」カード内の「詳細 ∨」ボタンを押してToDoリストを確認してください',
+          },
+          {
+            title: '台帳インポート（顧客登録）',
+            desc: '見込み客・既存客のリストをCSVでまとめて登録できます。AIが各顧客に最適な補助金を自動マッチングします。',
+            highlight: { x: 17, y: 301, w: 222, h: 40 },
+            page: '/demo/clients',
+          },
+          {
+            title: '顧客情報を直接編集してみる',
+            desc: '登録済み顧客リスト右側の「台帳を直接編集」ボタンで顧客情報を1件ずつ手入力・編集できます。',
+            highlight: { x: 288, y: 445, w: 960, h: 435 },
+            page: '/demo/clients',
+            beacons: [{ x: 1118, y: 487 }],
+            action: '✋ 右側の「台帳を直接編集」ボタンを押して顧客情報を確認・編集してください',
+          },
+          {
+            title: '体験完了！',
+            desc: 'SUMIAの主要機能をすべて体験できました。補助金の見落としをゼロにして、月の提案件数を大幅に増やしましょう！',
+            highlight: null,
+          },
+        ];
+
+        function tutorialStart() {
+          var iframe = document.getElementById('dashboard-demo-iframe');
+          if (iframe && iframe.src === 'about:blank') {
+            iframe.src = 'https://lumia-builder-portal.vercel.app/demo';
+            iframe.onload = scaleDashboard;
+            scaleDashboard();
+          }
+          _tutIdx = 0;
+          _tutActive = true;
+          document.getElementById('tut-overlay').style.display = 'block';
+          document.getElementById('tut-bar').style.display = 'block';
+          tutorialRender();
+        }
+
+        function tutorialClose() {
+          _tutActive = false;
+          document.getElementById('tut-overlay').style.display = 'none';
+          document.getElementById('tut-bar').style.display = 'none';
+        }
+
+        function tutorialNext() {
+          if (_tutIdx < TUT_STEPS.length - 1) {
+            _tutIdx++;
+            tutorialRender();
+          } else {
+            tutorialClose();
+          }
+        }
+
+        function tutorialPrev() {
+          if (_tutIdx > 0) {
+            _tutIdx--;
+            tutorialRender();
+          }
+        }
+
+        function tutorialRender() {
+          var step = TUT_STEPS[_tutIdx];
+          var total = TUT_STEPS.length;
+
+          document.getElementById('tut-step-num').textContent = 'STEP ' + (_tutIdx + 1) + ' / ' + total;
+          document.getElementById('tut-title').textContent = step.title;
+          document.getElementById('tut-desc').textContent = step.desc;
+
+          var actionEl = document.getElementById('tut-action');
+          if (step.action) {
+            actionEl.textContent = step.action;
+            actionEl.style.display = 'block';
+          } else {
+            actionEl.style.display = 'none';
+          }
+
+          var dotsEl = document.getElementById('tut-dots');
+          dotsEl.innerHTML = '';
+          for (var i = 0; i < total; i++) {
+            var dot = document.createElement('div');
+            dot.style.cssText = 'width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:background 0.2s;background:' + (i === _tutIdx ? '#6366f1' : '#e5e7eb') + ';';
+            dotsEl.appendChild(dot);
+          }
+
+          var prevBtn = document.getElementById('tut-prev');
+          var nextBtn = document.getElementById('tut-next');
+          var skipBtn = document.getElementById('tut-skip');
+          prevBtn.style.display = _tutIdx === 0 ? 'none' : '';
+          if (_tutIdx === total - 1) {
+            nextBtn.textContent = '完了';
+            nextBtn.style.background = '#10b981';
+            nextBtn.style.boxShadow = '0 4px 14px rgba(16,185,129,0.45)';
+            skipBtn.style.display = 'none';
+          } else if (step.action) {
+            nextBtn.textContent = '操作できたら次へ →';
+            nextBtn.style.background = '#f59e0b';
+            nextBtn.style.boxShadow = '0 4px 14px rgba(245,158,11,0.45)';
+            skipBtn.style.display = '';
+          } else {
+            nextBtn.textContent = '次へ →';
+            nextBtn.style.background = '#6366f1';
+            nextBtn.style.boxShadow = '0 4px 14px rgba(99,102,241,0.45)';
+            skipBtn.style.display = '';
+          }
+
+          var outer = document.getElementById('dashboard-scale-outer');
+          var containerW = outer.offsetWidth;
+
+          var shTop = document.getElementById('tut-sh-top');
+          var shLeft = document.getElementById('tut-sh-left');
+          var shRight = document.getElementById('tut-sh-right');
+          var shBottom = document.getElementById('tut-sh-bottom');
+          var ring = document.getElementById('tut-ring');
+
+          if (!step.highlight) {
+            shTop.style.cssText = 'position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.55);pointer-events:auto;';
+            shLeft.style.cssText = 'display:none;';
+            shRight.style.cssText = 'display:none;';
+            shBottom.style.cssText = 'display:none;';
+            ring.style.display = 'none';
+          } else {
+            var sc = containerW / 1280;
+            var sx = Math.round(step.highlight.x * sc);
+            var sy = Math.round(step.highlight.y * sc);
+            var sw = Math.round(step.highlight.w * sc);
+            var sh = Math.round(step.highlight.h * sc);
+
+            shTop.style.cssText = 'position:absolute;left:0;right:0;top:0;height:' + sy + 'px;background:rgba(0,0,0,0.55);pointer-events:auto;';
+            shLeft.style.cssText = 'position:absolute;top:' + sy + 'px;left:0;width:' + sx + 'px;height:' + sh + 'px;background:rgba(0,0,0,0.55);pointer-events:auto;';
+            shRight.style.cssText = 'position:absolute;top:' + sy + 'px;left:' + (sx + sw) + 'px;right:0;height:' + sh + 'px;background:rgba(0,0,0,0.55);pointer-events:auto;';
+            shBottom.style.cssText = 'position:absolute;left:0;right:0;top:' + (sy + sh) + 'px;bottom:0;background:rgba(0,0,0,0.55);pointer-events:auto;';
+            ring.style.cssText = 'position:absolute;left:' + (sx - 2) + 'px;top:' + (sy - 2) + 'px;width:' + (sw + 4) + 'px;height:' + (sh + 4) + 'px;border:2.5px solid rgba(99,102,241,0.9);border-radius:10px;box-shadow:0 0 0 4px rgba(99,102,241,0.15),0 0 20px rgba(99,102,241,0.25);pointer-events:none;display:block;';
+          }
+
+          // Render beacons
+          var beaconsEl = document.getElementById('tut-beacons');
+          beaconsEl.innerHTML = '';
+          var sc2 = containerW / 1280;
+          if (step.beacons && step.beacons.length) {
+            step.beacons.forEach(function(b) {
+              var bx = Math.round(b.x * sc2);
+              var by = Math.round(b.y * sc2);
+              var size = 30;
+              var wrap = document.createElement('div');
+              wrap.style.cssText = 'position:absolute;left:' + (bx - size/2) + 'px;top:' + (by - size/2) + 'px;width:' + size + 'px;height:' + size + 'px;';
+              var r1 = document.createElement('div');
+              r1.style.cssText = 'position:absolute;inset:0;border-radius:50%;border:2.5px solid #f59e0b;animation:tutRipple 1.3s ease-out infinite;';
+              var r2 = document.createElement('div');
+              r2.style.cssText = 'position:absolute;inset:0;border-radius:50%;border:2.5px solid #f59e0b;animation:tutRipple 1.3s ease-out 0.45s infinite;';
+              var dot = document.createElement('div');
+              dot.style.cssText = 'position:absolute;inset:6px;border-radius:50%;background:#f59e0b;animation:tutPulse 1.3s ease-in-out infinite;';
+              wrap.appendChild(r1);
+              wrap.appendChild(r2);
+              wrap.appendChild(dot);
+              beaconsEl.appendChild(wrap);
+            });
+          }
+          if (step.scrollHint) {
+            var hx = Math.round(step.scrollHint.x * sc2);
+            var hy = Math.round(step.scrollHint.y * sc2);
+            var arrow = document.createElement('div');
+            arrow.style.cssText = 'position:absolute;left:' + (hx - 12) + 'px;top:' + hy + 'px;font-size:24px;color:#f59e0b;font-weight:900;animation:tutBounce 0.8s ease-in-out infinite;line-height:1;text-shadow:0 2px 6px rgba(0,0,0,0.4);';
+            arrow.textContent = '↓';
+            beaconsEl.appendChild(arrow);
+          }
+
+          if (step.page) {
+            var iframe = document.getElementById('dashboard-demo-iframe');
+            if (iframe) {
+              var target = 'https://lumia-builder-portal.vercel.app' + step.page;
+              if (iframe.src !== target) iframe.src = target;
+            }
+          }
+        }
+
+        window.addEventListener('resize', function() {
+          if (_tutActive) tutorialRender();
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (!_tutActive) return;
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') tutorialNext();
+          else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') tutorialPrev();
+          else if (e.key === 'Escape') tutorialClose();
+        });
       </script>
 
       <style>
