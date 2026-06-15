@@ -867,8 +867,17 @@
             highlight: { x: 325, y: 145, w: 268, h: 730 },
             page: '/demo/simulator?tut=1',
             beacons: [{ x: 459, y: 980 }],
-            completedBy: 'sim:calculate',
+            completedBy: 'sim:result',
+            clearOnComplete: true,
             action: '✋ 下にスクロールして「補助金を計算する」ボタンを押してください',
+          },
+          {
+            title: '計算結果を確認',
+            desc: '受給可能な補助金と概算金額が右パネルに表示されました。補助金の種類と受給可能額を確認しましょう。',
+            highlight: { x: 625, y: 145, w: 623, h: 700 },
+            page: '/demo/simulator?tut=1',
+            beacons: [{ x: 937, y: 350 }],
+            action: '✋ 計算結果を確認したら「次へ」を押してください',
           },
           {
             title: '補助金検索',
@@ -924,7 +933,7 @@
           {
             title: 'AIマッチング理由・LINE送信・商談化',
             desc: '光っている「∨」ボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
-            highlight: { x: 288, y: 320, w: 960, h: 140 },
+            highlight: { x: 288, y: 256, w: 960, h: 140 },
             page: '/demo/opportunities',
             beacons: [{ x: 1216, y: 326 }],
             completedBy: 'opp:expand',
@@ -933,7 +942,7 @@
           {
             title: 'AIマッチング理由・LINE送信を確認',
             desc: 'AIマッチング理由を確認したら、LINE送信ボタン（緑のSendアイコン）を押すと自動で次に進みます。',
-            highlight: { x: 288, y: 310, w: 960, h: 560 },
+            highlight: { x: 288, y: 256, w: 960, h: 560 },
             page: '/demo/opportunities',
             beacons: [{ x: 1113, y: 326 }],
             completedBy: 'opp:line',
