@@ -859,16 +859,12 @@
           },
           {
             title: '補助金を計算してみる',
-            desc: '施主の属性と工事内容を選ぶと右側に補助金と合計金額が表示されます。フォームは下にスクロールできます。',
+            desc: '「子育て世帯」「断熱改修」はすでにチェック済みです。下にスクロールして「補助金を計算する」ボタンを押してください。',
             highlight: { x: 325, y: 145, w: 268, h: 730 },
-            page: '/demo/simulator',
-            beaconSeq: [
-              { x: 366, y: 387, id: 'sim:childFamily' },
-              { x: 366, y: 784, id: 'sim:workType' },
-              { x: 459, y: 980, id: 'sim:calculate' },
-            ],
+            page: '/demo/simulator?tut=1',
+            beacons: [{ x: 459, y: 980 }],
             completedBy: 'sim:calculate',
-            action: '✋ 光っている場所を順番に押してください。「子育て世帯」→「断熱改修」→下にスクロールして「補助金を計算する」',
+            action: '✋ 下にスクロールして「補助金を計算する」ボタンを押してください',
           },
           {
             title: '補助金検索',
@@ -919,24 +915,26 @@
             page: '/demo/opportunities',
             beacons: [{ x: 1049, y: 68 }],
             completedBy: 'opp:reanalyze',
+            completedDelay: 2000,
             action: '✋ 画面右上の「AI再解析」ボタンを押してください',
           },
           {
             title: 'AIマッチング理由・LINE送信・商談化',
             desc: '光っている「∨」ボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
-            highlight: { x: 288, y: 256, w: 960, h: 118 },
+            highlight: { x: 288, y: 320, w: 960, h: 140 },
             page: '/demo/opportunities',
-            beacons: [{ x: 1215, y: 332 }],
+            beacons: [{ x: 1216, y: 395 }],
             completedBy: 'opp:expand',
             action: '✋ 「山本 健太様」の行の右端「∨」ボタンを押してください',
           },
           {
             title: 'AIマッチング理由・LINE送信を確認',
             desc: 'AIマッチング理由を確認したら、LINE送信ボタン（緑のSendアイコン）を押すと自動で次に進みます。',
-            highlight: { x: 288, y: 188, w: 960, h: 500 },
+            highlight: { x: 288, y: 310, w: 960, h: 560 },
             page: '/demo/opportunities',
-            beacons: [{ x: 1213, y: 310 }],
+            beacons: [{ x: 1113, y: 395 }],
             completedBy: 'opp:line',
+            completedDelay: 2000,
             action: '✋ AIマッチング理由を確認したら「LINE送信」ボタン（緑アイコン）を押してください',
           },
           {
@@ -957,17 +955,18 @@
           {
             title: 'ToDoリストを確認する',
             desc: '光っているボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
-            highlight: { x: 600, y: 188, w: 310, h: 140 },
+            highlight: { x: 600, y: 155, w: 310, h: 185 },
             page: '/demo/pipeline',
-            beacons: [{ x: 754, y: 270 }],
+            beacons: [{ x: 754, y: 318 }],
             completedBy: 'pipeline:details',
             action: '✋「田中 一郎様 邸」カード内の「詳細 ∨」ボタンを押してください（②列に移動済み）',
           },
           {
             title: 'ToDoリストをチェックしてみる',
             desc: 'ToDoリストのチェックボックスを押すと進捗が更新されます。チェックすると自動で次に進みます。',
-            highlight: { x: 600, y: 188, w: 310, h: 500 },
+            highlight: { x: 600, y: 155, w: 310, h: 500 },
             page: '/demo/pipeline',
+            beacons: [{ x: 634, y: 480 }],
             completedBy: 'pipeline:todoCheck',
             action: '✋ ToDoリストのチェックボックスを1つ押して完了にしてください',
           },
@@ -1207,7 +1206,7 @@
 
           // completedByが来たらステップを自動で次へ
           if (step.completedBy === data.id) {
-            setTimeout(tutorialNext, 600);
+            setTimeout(tutorialNext, step.completedDelay || 600);
           }
         });
 
