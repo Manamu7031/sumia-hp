@@ -664,6 +664,8 @@
                 使い方ガイド
               </button>
             </div>
+            <!-- チュートリアル中は他の操作をブロックする全画面オーバーレイ -->
+            <div id="tut-page-block" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9980;"></div>
             <div id="tut-wrapper" style="position:relative;">
               <div id="dashboard-scale-outer" style="width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 32px 80px rgba(0,0,0,0.5);background:#f4f5f7;">
                 <iframe
@@ -738,6 +740,8 @@
         var _tutHasShown = false;
         var _tutIdx = 0;
         var _tutActive = false;
+        var _tutBeaconIdx = 0;
+        var _tutScrollY = 0;
 
         function startLineAnimation() {
           var area = document.getElementById('line-chat-area');
@@ -858,12 +862,13 @@
             desc: '施主の属性と工事内容を選ぶと右側に補助金と合計金額が表示されます。フォームは下にスクロールできます。',
             highlight: { x: 325, y: 145, w: 268, h: 730 },
             page: '/demo/simulator',
-            beacons: [
-              { x: 366, y: 387 },
-              { x: 366, y: 784 },
+            beaconSeq: [
+              { x: 366, y: 387, id: 'sim:childFamily' },
+              { x: 366, y: 784, id: 'sim:workType' },
+              { x: 459, y: 980, id: 'sim:calculate' },
             ],
-            scrollHint: { x: 459, y: 848 },
-            action: '✋「子育て世帯」と「断熱改修」にチェックを入れて、左パネルを下にスクロールし「補助金を計算する」ボタンを押してください',
+            completedBy: 'sim:calculate',
+            action: '✋ 光っている場所を順番に押してください。「子育て世帯」→「断熱改修」→下にスクロールして「補助金を計算する」',
           },
           {
             title: '補助金検索',
@@ -873,19 +878,33 @@
           },
           {
             title: '検索してみる',
-            desc: '検索ボックスにキーワードを入力して「検索」ボタンを押すと、該当する補助金が一覧表示されます。',
+            desc: '「断熱」があらかじめ入力されています。「検索」ボタンを押して補助金を検索してみましょう。',
             highlight: { x: 289, y: 105, w: 960, h: 108 },
-            page: '/demo/search',
+            page: '/demo/search?q=%E6%96%AD%E7%86%B1&tut=1',
             beacons: [{ x: 1197, y: 146 }],
-            action: '✋ 検索ボックスに「断熱」と入力して右の「検索」ボタンを押してください',
+            completedBy: 'search:search',
+            action: '✋ 「断熱」がすでに入力されています。「検索」ボタンを押してください',
           },
           {
             title: '営業トーク・申請要件を確認する',
-            desc: '光っているボタンを押すと施主への説明文と申請要件チェックリストが表示されます。商談でそのまま使えます。',
+            desc: '光っているボタンを押すとタブが表示されます。押したら自動で次に進みます。',
             highlight: { x: 289, y: 598, w: 477, h: 70 },
-            page: '/demo/search',
+            page: '/demo/search?q=%E6%96%AD%E7%86%B1&tut=1',
             beacons: [{ x: 528, y: 633 }],
+            completedBy: 'search:details',
             action: '✋ カード下部の「∨ 営業トーク・要件を確認」ボタンを押してください',
+          },
+          {
+            title: '営業トーク・申請要件タブを確認',
+            desc: '「営業トーク」タブには商談で使えるトークスクリプト、「申請要件」タブには申請条件が記載されています。',
+            highlight: { x: 289, y: 188, w: 484, h: 692 },
+            page: '/demo/search?q=%E6%96%AD%E7%86%B1&tut=1',
+            beaconSeq: [
+              { x: 383, y: 670, id: 'search:talkTab' },
+              { x: 528, y: 670, id: 'search:reqTab' },
+            ],
+            completedBy: 'search:reqTab',
+            action: '✋「営業トーク」→「申請要件」タブを順番に押して内容を確認してください',
           },
           {
             title: '提案チャンス',
@@ -899,15 +918,24 @@
             highlight: { x: 984, y: 44, w: 130, h: 48 },
             page: '/demo/opportunities',
             beacons: [{ x: 1049, y: 68 }],
+            completedBy: 'opp:reanalyze',
             action: '✋ 画面右上の「AI再解析」ボタンを押してください',
           },
           {
             title: 'AIマッチング理由・LINE送信・商談化',
-            desc: 'AIがなぜその補助金を提案したかの理由と、LINEで施主に通知するボタン、商談化ボタンが確認できます。',
+            desc: '光っている「∨」ボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
             highlight: { x: 288, y: 256, w: 960, h: 118 },
             page: '/demo/opportunities',
             beacons: [{ x: 1215, y: 332 }],
-            action: '✋ 「山本 健太様」の行の一番右「∨」ボタンを押してAIマッチング理由・LINE送信・商談化を確認してください',
+            completedBy: 'opp:expand',
+            action: '✋ 「山本 健太様」の行の右端「∨」ボタンを押してください',
+          },
+          {
+            title: 'AIマッチング理由・LINE送信・商談化を確認',
+            desc: 'AIがなぜその補助金を提案したかの理由・LINEで施主に通知するボタン・商談化ボタンが展開されています。',
+            highlight: { x: 288, y: 188, w: 960, h: 500 },
+            page: '/demo/opportunities',
+            action: '✋ AIマッチング理由・LINE送信・商談化ボタンを確認したら「操作できたら次へ」を押してください',
           },
           {
             title: '案件管理（パイプライン）',
@@ -917,19 +945,28 @@
           },
           {
             title: 'ドラッグで進捗を更新',
-            desc: 'カードを隣の列にドラッグすると申請ステージが更新されます。',
+            desc: 'カードを隣の列にドラッグすると申請ステージが更新されます。左の●が田中様カード、右の●がドロップ先（②予約申請・予算確保）を示しています。',
             highlight: { x: 288, y: 108, w: 960, h: 600 },
             page: '/demo/pipeline',
-            beacons: [{ x: 438, y: 255 }],
-            action: '✋「田中 一郎様 邸」カードを右の「②予約申請・予算確保」列へドラッグして申請ステージを進めてください',
+            beacons: [{ x: 438, y: 255 }, { x: 754, y: 140 }],
+            completedBy: 'pipeline:drag',
+            action: '✋「田中 一郎様 邸」カード（左の●）を右の●「②予約申請・予算確保」列へドラッグしてください',
           },
           {
             title: 'ToDoリストを確認する',
-            desc: '光っているボタンを押すとToDoリスト・フェーズ変更・AIマッチング理由・LINE送信が確認できます。',
-            highlight: { x: 295, y: 295, w: 298, h: 58 },
+            desc: '光っているボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
+            highlight: { x: 600, y: 188, w: 310, h: 140 },
             page: '/demo/pipeline',
-            beacons: [{ x: 444, y: 324 }],
-            action: '✋「田中 一郎様 邸」カード内の「詳細 ∨」ボタンを押してToDoリストを確認してください',
+            beacons: [{ x: 754, y: 270 }],
+            completedBy: 'pipeline:details',
+            action: '✋「田中 一郎様 邸」カード内の「詳細 ∨」ボタンを押してください（②列に移動済み）',
+          },
+          {
+            title: 'ToDoリスト・各種ボタンを確認',
+            desc: 'ToDoリスト・フェーズ変更・AIメッセージ等の機能が展開されています。確認できたら次へ進みましょう。',
+            highlight: null,
+            page: '/demo/pipeline',
+            action: '✋ ToDoリストや各種ボタンを確認したら「操作できたら次へ」を押してください',
           },
           {
             title: '台帳インポート（顧客登録）',
@@ -943,7 +980,8 @@
             highlight: { x: 288, y: 445, w: 960, h: 435 },
             page: '/demo/clients',
             beacons: [{ x: 1118, y: 487 }],
-            action: '✋ 右側の「台帳を直接編集」ボタンを押して顧客情報を確認・編集してください',
+            completedBy: 'clients:edit',
+            action: '✋ 右側の「台帳を直接編集」ボタンを押して編集画面を確認してください',
           },
           {
             title: '体験完了！',
@@ -960,9 +998,20 @@
             scaleDashboard();
           }
           _tutIdx = 0;
+          _tutBeaconIdx = 0;
+          _tutScrollY = 0;
           _tutActive = true;
           document.getElementById('tut-overlay').style.display = 'block';
           document.getElementById('tut-bar').style.display = 'block';
+
+          // iframeエリアを前面に出して他の操作をブロック
+          var wrapper = document.getElementById('tut-wrapper');
+          if (wrapper) {
+            wrapper.style.position = 'relative';
+            wrapper.style.zIndex = '9985';
+          }
+          document.getElementById('tut-page-block').style.display = 'block';
+
           tutorialRender();
         }
 
@@ -970,11 +1019,16 @@
           _tutActive = false;
           document.getElementById('tut-overlay').style.display = 'none';
           document.getElementById('tut-bar').style.display = 'none';
+          document.getElementById('tut-page-block').style.display = 'none';
+          var wrapper = document.getElementById('tut-wrapper');
+          if (wrapper) { wrapper.style.zIndex = ''; }
         }
 
         function tutorialNext() {
           if (_tutIdx < TUT_STEPS.length - 1) {
             _tutIdx++;
+            _tutBeaconIdx = 0;
+            _tutScrollY = 0;
             tutorialRender();
           } else {
             tutorialClose();
@@ -984,7 +1038,58 @@
         function tutorialPrev() {
           if (_tutIdx > 0) {
             _tutIdx--;
+            _tutBeaconIdx = 0;
+            _tutScrollY = 0;
             tutorialRender();
+          }
+        }
+
+        function _tutDrawBeacons() {
+          var step = TUT_STEPS[_tutIdx];
+          var outer = document.getElementById('dashboard-scale-outer');
+          var containerW = outer.offsetWidth;
+          var sc2 = containerW / 1280;
+          var beaconsEl = document.getElementById('tut-beacons');
+          beaconsEl.innerHTML = '';
+
+          // beaconSeqは1つずつ順番に表示。なければbeacons配列を全表示
+          var beaconsToShow = [];
+          if (step.beaconSeq && step.beaconSeq.length) {
+            var curr = step.beaconSeq[_tutBeaconIdx];
+            if (curr) beaconsToShow = [curr];
+          } else if (step.beacons && step.beacons.length) {
+            beaconsToShow = step.beacons;
+          }
+
+          beaconsToShow.forEach(function(b) {
+            var bx = Math.round(b.x * sc2);
+            var by = Math.round((b.y - _tutScrollY) * sc2);
+            var size = 30;
+            var wrap = document.createElement('div');
+            wrap.style.cssText = 'position:absolute;left:' + (bx - size/2) + 'px;top:' + (by - size/2) + 'px;width:' + size + 'px;height:' + size + 'px;pointer-events:none;';
+            var r1 = document.createElement('div');
+            r1.style.cssText = 'position:absolute;inset:0;border-radius:50%;border:2.5px solid #f59e0b;animation:tutRipple 1.3s ease-out infinite;';
+            var r2 = document.createElement('div');
+            r2.style.cssText = 'position:absolute;inset:0;border-radius:50%;border:2.5px solid #f59e0b;animation:tutRipple 1.3s ease-out 0.45s infinite;';
+            var dot = document.createElement('div');
+            dot.style.cssText = 'position:absolute;inset:6px;border-radius:50%;background:#f59e0b;animation:tutPulse 1.3s ease-in-out infinite;';
+            wrap.appendChild(r1);
+            wrap.appendChild(r2);
+            wrap.appendChild(dot);
+            beaconsEl.appendChild(wrap);
+          });
+
+          // scrollHintはbeaconSeqが全て完了した後に表示
+          var showHint = step.scrollHint && (
+            !step.beaconSeq || _tutBeaconIdx >= step.beaconSeq.length
+          );
+          if (showHint) {
+            var hx = Math.round(step.scrollHint.x * sc2);
+            var hy = Math.round((step.scrollHint.y - _tutScrollY) * sc2);
+            var arrow = document.createElement('div');
+            arrow.style.cssText = 'position:absolute;left:' + (hx - 12) + 'px;top:' + hy + 'px;font-size:24px;color:#f59e0b;font-weight:900;animation:tutBounce 0.8s ease-in-out infinite;line-height:1;text-shadow:0 2px 6px rgba(0,0,0,0.4);pointer-events:none;';
+            arrow.textContent = '↓';
+            beaconsEl.appendChild(arrow);
           }
         }
 
@@ -1062,37 +1167,7 @@
             ring.style.cssText = 'position:absolute;left:' + (sx - 2) + 'px;top:' + (sy - 2) + 'px;width:' + (sw + 4) + 'px;height:' + (sh + 4) + 'px;border:2.5px solid rgba(99,102,241,0.9);border-radius:10px;box-shadow:0 0 0 4px rgba(99,102,241,0.15),0 0 20px rgba(99,102,241,0.25);pointer-events:none;display:block;';
           }
 
-          // Render beacons
-          var beaconsEl = document.getElementById('tut-beacons');
-          beaconsEl.innerHTML = '';
-          var sc2 = containerW / 1280;
-          if (step.beacons && step.beacons.length) {
-            step.beacons.forEach(function(b) {
-              var bx = Math.round(b.x * sc2);
-              var by = Math.round(b.y * sc2);
-              var size = 30;
-              var wrap = document.createElement('div');
-              wrap.style.cssText = 'position:absolute;left:' + (bx - size/2) + 'px;top:' + (by - size/2) + 'px;width:' + size + 'px;height:' + size + 'px;';
-              var r1 = document.createElement('div');
-              r1.style.cssText = 'position:absolute;inset:0;border-radius:50%;border:2.5px solid #f59e0b;animation:tutRipple 1.3s ease-out infinite;';
-              var r2 = document.createElement('div');
-              r2.style.cssText = 'position:absolute;inset:0;border-radius:50%;border:2.5px solid #f59e0b;animation:tutRipple 1.3s ease-out 0.45s infinite;';
-              var dot = document.createElement('div');
-              dot.style.cssText = 'position:absolute;inset:6px;border-radius:50%;background:#f59e0b;animation:tutPulse 1.3s ease-in-out infinite;';
-              wrap.appendChild(r1);
-              wrap.appendChild(r2);
-              wrap.appendChild(dot);
-              beaconsEl.appendChild(wrap);
-            });
-          }
-          if (step.scrollHint) {
-            var hx = Math.round(step.scrollHint.x * sc2);
-            var hy = Math.round(step.scrollHint.y * sc2);
-            var arrow = document.createElement('div');
-            arrow.style.cssText = 'position:absolute;left:' + (hx - 12) + 'px;top:' + hy + 'px;font-size:24px;color:#f59e0b;font-weight:900;animation:tutBounce 0.8s ease-in-out infinite;line-height:1;text-shadow:0 2px 6px rgba(0,0,0,0.4);';
-            arrow.textContent = '↓';
-            beaconsEl.appendChild(arrow);
-          }
+          _tutDrawBeacons();
 
           if (step.page) {
             var iframe = document.getElementById('dashboard-demo-iframe');
@@ -1102,6 +1177,36 @@
             }
           }
         }
+
+        // iframeからのpostMessageでビーコンを進める / ステップ自動遷移
+        window.addEventListener('message', function(evt) {
+          if (!_tutActive) return;
+          var data = evt.data;
+          if (!data || data.type !== 'tut') return;
+
+          // スクロール位置の更新（ビーコン座標をリアルタイム補正）
+          if (data.scroll !== undefined) {
+            _tutScrollY = data.scroll.y || 0;
+            _tutDrawBeacons();
+            return;
+          }
+
+          var step = TUT_STEPS[_tutIdx];
+
+          // beaconSeqの順番通りにビーコンを進める
+          if (step.beaconSeq && step.beaconSeq.length) {
+            var curr = step.beaconSeq[_tutBeaconIdx];
+            if (curr && curr.id === data.id) {
+              _tutBeaconIdx++;
+              _tutDrawBeacons();
+            }
+          }
+
+          // completedByが来たらステップを自動で次へ
+          if (step.completedBy === data.id) {
+            setTimeout(tutorialNext, 600);
+          }
+        });
 
         window.addEventListener('resize', function() {
           if (_tutActive) tutorialRender();
