@@ -912,6 +912,7 @@
             beacons: [{ x: 1049, y: 68 }],
             completedBy: 'opp:reanalyze',
             completedDelay: 2000,
+            clearOnComplete: true,
             action: '✋ 画面右上の「AI再解析」ボタンを押してください',
           },
           {
@@ -919,7 +920,7 @@
             desc: '光っている「∨」ボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
             highlight: { x: 288, y: 320, w: 960, h: 140 },
             page: '/demo/opportunities',
-            beacons: [{ x: 1216, y: 395 }],
+            beacons: [{ x: 1216, y: 415 }],
             completedBy: 'opp:expand',
             action: '✋ 「山本 健太様」の行の右端「∨」ボタンを押してください',
           },
@@ -1202,6 +1203,15 @@
 
           // completedByが来たらステップを自動で次へ
           if (step.completedBy === data.id) {
+            // clearOnComplete: true のステップはボタン押した瞬間にハイライトを消去
+            if (step.clearOnComplete) {
+              document.getElementById('tut-sh-top').style.cssText   = 'display:none;';
+              document.getElementById('tut-sh-left').style.cssText  = 'display:none;';
+              document.getElementById('tut-sh-right').style.cssText = 'display:none;';
+              document.getElementById('tut-sh-bottom').style.cssText= 'display:none;';
+              document.getElementById('tut-ring').style.display      = 'none';
+              document.getElementById('tut-beacons').innerHTML       = '';
+            }
             setTimeout(tutorialNext, step.completedDelay || 600);
           }
         });
