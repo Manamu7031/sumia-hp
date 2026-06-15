@@ -190,6 +190,10 @@
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.5; }
     }
+    @keyframes tutDash {
+      from { stroke-dashoffset: 0; }
+      to   { stroke-dashoffset: -18; }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 leading-relaxed break-words">
@@ -879,6 +883,8 @@
             page: '/demo/search?q=%E6%96%AD%E7%86%B1&tut=1',
             beacons: [{ x: 1197, y: 146 }],
             completedBy: 'search:search',
+            completedDelay: 300,
+            clearOnComplete: true,
             action: '✋ 「断熱」がすでに入力されています。「検索」ボタンを押してください',
           },
           {
@@ -911,7 +917,7 @@
             page: '/demo/opportunities',
             beacons: [{ x: 1049, y: 68 }],
             completedBy: 'opp:reanalyze',
-            completedDelay: 2000,
+            completedDelay: 2500,
             clearOnComplete: true,
             action: '✋ 画面右上の「AI再解析」ボタンを押してください',
           },
@@ -920,7 +926,7 @@
             desc: '光っている「∨」ボタンを押すと詳細が展開されます。押したら自動で次に進みます。',
             highlight: { x: 288, y: 320, w: 960, h: 140 },
             page: '/demo/opportunities',
-            beacons: [{ x: 1216, y: 415 }],
+            beacons: [{ x: 1216, y: 326 }],
             completedBy: 'opp:expand',
             action: '✋ 「山本 健太様」の行の右端「∨」ボタンを押してください',
           },
@@ -929,7 +935,7 @@
             desc: 'AIマッチング理由を確認したら、LINE送信ボタン（緑のSendアイコン）を押すと自動で次に進みます。',
             highlight: { x: 288, y: 310, w: 960, h: 560 },
             page: '/demo/opportunities',
-            beacons: [{ x: 1113, y: 415 }],
+            beacons: [{ x: 1113, y: 326 }],
             completedBy: 'opp:line',
             completedDelay: 2000,
             clearOnComplete: true,
@@ -947,6 +953,7 @@
             highlight: { x: 288, y: 108, w: 960, h: 600 },
             page: '/demo/pipeline',
             beacons: [{ x: 438, y: 255 }, { x: 754, y: 140 }],
+            dragArrow: true,
             completedBy: 'pipeline:drag',
             action: '✋「田中 一郎様 邸」カード（左の●）を右の●「②予約申請・予算確保」列へドラッグしてください',
           },
@@ -964,7 +971,7 @@
             desc: 'ToDoリストのチェックボックスを押すと進捗が更新されます。チェックすると自動で次に進みます。',
             highlight: { x: 600, y: 155, w: 310, h: 500 },
             page: '/demo/pipeline',
-            beacons: [{ x: 634, y: 480 }],
+            beacons: [{ x: 634, y: 473 }],
             completedBy: 'pipeline:todoCheck',
             action: '✋ ToDoリストのチェックボックスを1つ押して完了にしてください',
           },
@@ -1078,6 +1085,46 @@
             wrap.appendChild(dot);
             beaconsEl.appendChild(wrap);
           });
+
+          // dragArrow: true のステップは2ビーコン間に動くSVG矢印を描画
+          if (step.dragArrow && step.beacons && step.beacons.length >= 2) {
+            var containerH = outer.offsetHeight;
+            var b0x = Math.round(step.beacons[0].x * sc2);
+            var b0y = Math.round((step.beacons[0].y - _tutScrollY) * sc2);
+            var b1x = Math.round(step.beacons[1].x * sc2);
+            var b1y = Math.round((step.beacons[1].y - _tutScrollY) * sc2);
+            var cpx = Math.round((b0x + b1x) / 2);
+            var cpy = Math.min(b0y, b1y) - Math.round(50 * sc2);
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', containerW);
+            svg.setAttribute('height', containerH);
+            svg.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none;overflow:visible;';
+            var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            var mk = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            mk.setAttribute('id', 'tutArrow');
+            mk.setAttribute('markerWidth', '8');
+            mk.setAttribute('markerHeight', '6');
+            mk.setAttribute('refX', '7');
+            mk.setAttribute('refY', '3');
+            mk.setAttribute('orient', 'auto');
+            var poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            poly.setAttribute('points', '0 0, 8 3, 0 6');
+            poly.setAttribute('fill', '#f59e0b');
+            mk.appendChild(poly);
+            defs.appendChild(mk);
+            svg.appendChild(defs);
+            var ap = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            ap.setAttribute('d', 'M' + b0x + ' ' + b0y + ' Q' + cpx + ' ' + cpy + ' ' + b1x + ' ' + b1y);
+            ap.setAttribute('fill', 'none');
+            ap.setAttribute('stroke', '#f59e0b');
+            ap.setAttribute('stroke-width', '3');
+            ap.setAttribute('stroke-linecap', 'round');
+            ap.setAttribute('marker-end', 'url(#tutArrow)');
+            ap.setAttribute('stroke-dasharray', '9 9');
+            ap.style.animation = 'tutDash 0.4s linear infinite';
+            svg.appendChild(ap);
+            beaconsEl.appendChild(svg);
+          }
 
           // scrollHintはbeaconSeqが全て完了した後に表示
           var showHint = step.scrollHint && (
