@@ -687,6 +687,10 @@
                 <div id="tut-sh-right" style="position:absolute;background:rgba(0,0,0,0.72);pointer-events:auto;"></div>
                 <div id="tut-sh-bottom" style="position:absolute;left:0;right:0;background:rgba(0,0,0,0.72);pointer-events:auto;"></div>
                 <div id="tut-ring" style="position:absolute;pointer-events:none;display:none;border:2.5px solid rgba(99,102,241,0.9);border-radius:10px;box-shadow:0 0 0 4px rgba(99,102,241,0.15),0 0 20px rgba(99,102,241,0.25);"></div>
+                <div id="tut-in-top" style="position:absolute;background:transparent;pointer-events:auto;display:none;"></div>
+                <div id="tut-in-left" style="position:absolute;background:transparent;pointer-events:auto;display:none;"></div>
+                <div id="tut-in-right" style="position:absolute;background:transparent;pointer-events:auto;display:none;"></div>
+                <div id="tut-in-bottom" style="position:absolute;background:transparent;pointer-events:auto;display:none;"></div>
                 <div id="tut-beacons" style="position:absolute;inset:0;pointer-events:none;z-index:60;"></div>
               </div><!-- /tut-overlay -->
             </div><!-- /tut-wrapper -->
@@ -867,6 +871,7 @@
             highlight: { x: 325, y: 145, w: 268, h: 730 },
             page: '/demo/simulator?tut=1',
             beacons: [{ x: 459, y: 980 }],
+            hotspot: { x: 325, y: 954, w: 268, h: 56 },
             completedBy: 'sim:result',
             clearOnComplete: true,
             action: '✋ 下にスクロールして「補助金を計算する」ボタンを押してください',
@@ -890,6 +895,7 @@
             highlight: { x: 289, y: 105, w: 960, h: 108 },
             page: '/demo/search?q=%E6%96%AD%E7%86%B1&tut=1',
             beacons: [{ x: 1197, y: 146 }],
+            hotspot: { x: 1155, y: 122, w: 90, h: 48 },
             completedBy: 'search:results',
             clearOnComplete: true,
             action: '✋ 「断熱」がすでに入力されています。「検索」ボタンを押してください',
@@ -941,6 +947,7 @@
             highlight: { x: 288, y: 256, w: 960, h: 140 },
             page: '/demo/opportunities',
             beacons: [{ x: 1216, y: 326 }],
+            hotspot: { x: 1198, y: 303, w: 48, h: 46 },
             completedBy: 'opp:expand',
             action: '✋ 「山本 健太様」の行の右端「∨」ボタンを押してください',
           },
@@ -950,6 +957,7 @@
             highlight: { x: 288, y: 256, w: 960, h: 560 },
             page: '/demo/opportunities',
             beacons: [{ x: 1113, y: 326 }],
+            hotspot: { x: 1093, y: 306, w: 42, h: 40 },
             completedBy: 'opp:line',
             completedDelay: 2000,
             clearOnComplete: true,
@@ -977,6 +985,7 @@
             highlight: { x: 600, y: 155, w: 310, h: 185 },
             page: '/demo/pipeline',
             beacons: [{ x: 754, y: 318 }],
+            hotspot: { x: 722, y: 298, w: 64, h: 40 },
             completedBy: 'pipeline:details',
             action: '✋「田中 一郎様 邸」カード内の「詳細 ∨」ボタンを押してください（②列に移動済み）',
           },
@@ -986,6 +995,7 @@
             highlight: { x: 600, y: 155, w: 310, h: 500 },
             page: '/demo/pipeline',
             beacons: [{ x: 634, y: 473 }],
+            hotspot: { x: 616, y: 457, w: 36, h: 34 },
             completedBy: 'pipeline:todoCheck',
             action: '✋ ToDoリストのチェックボックスを1つ押して完了にしてください',
           },
@@ -1001,6 +1011,7 @@
             highlight: { x: 288, y: 445, w: 960, h: 435 },
             page: '/demo/clients',
             beacons: [{ x: 1118, y: 487 }],
+            hotspot: { x: 1038, y: 465, w: 160, h: 44 },
             completedBy: 'clients:edit',
             action: '✋ 右側の「台帳を直接編集」ボタンを押して編集画面を確認してください',
           },
@@ -1152,6 +1163,43 @@
             arrow.textContent = '↓';
             beaconsEl.appendChild(arrow);
           }
+
+          // クリックロック：押すべき場所(hotspot)以外はクリック無効化して誤操作を防ぐ
+          var inTop    = document.getElementById('tut-in-top');
+          var inLeft   = document.getElementById('tut-in-left');
+          var inRight  = document.getElementById('tut-in-right');
+          var inBottom = document.getElementById('tut-in-bottom');
+          if (step.highlight && step.hotspot) {
+            var hlx = Math.round(step.highlight.x * sc2);
+            var hly = Math.round(step.highlight.y * sc2);
+            var hlw = Math.round(step.highlight.w * sc2);
+            var hlh = Math.round(step.highlight.h * sc2);
+            var hx = Math.round(step.hotspot.x * sc2);
+            var hy = Math.round((step.hotspot.y - _tutScrollY) * sc2);
+            var hw = Math.round(step.hotspot.w * sc2);
+            var hh = Math.round(step.hotspot.h * sc2);
+            // hotspotをハイライト範囲内にクランプ
+            hx = Math.max(hlx, Math.min(hx, hlx + hlw));
+            hy = Math.max(hly, Math.min(hy, hly + hlh));
+            hw = Math.max(0, Math.min(hw, hlx + hlw - hx));
+            hh = Math.max(0, Math.min(hh, hly + hlh - hy));
+
+            inTop.style.cssText    = 'position:absolute;left:' + hlx + 'px;top:' + hly + 'px;width:' + hlw + 'px;height:' + Math.max(0, hy - hly) + 'px;background:transparent;pointer-events:auto;';
+            inLeft.style.cssText   = 'position:absolute;left:' + hlx + 'px;top:' + hy + 'px;width:' + Math.max(0, hx - hlx) + 'px;height:' + hh + 'px;background:transparent;pointer-events:auto;';
+            inRight.style.cssText  = 'position:absolute;left:' + (hx + hw) + 'px;top:' + hy + 'px;width:' + Math.max(0, hlx + hlw - (hx + hw)) + 'px;height:' + hh + 'px;background:transparent;pointer-events:auto;';
+            inBottom.style.cssText = 'position:absolute;left:' + hlx + 'px;top:' + (hy + hh) + 'px;width:' + hlw + 'px;height:' + Math.max(0, hly + hlh - (hy + hh)) + 'px;background:transparent;pointer-events:auto;';
+          } else if (step.highlight && !step.completedBy) {
+            // 操作不要なステップ（説明のみ）はハイライト全体をクリック無効化
+            inTop.style.cssText    = 'position:absolute;left:' + Math.round(step.highlight.x * sc2) + 'px;top:' + Math.round(step.highlight.y * sc2) + 'px;width:' + Math.round(step.highlight.w * sc2) + 'px;height:' + Math.round(step.highlight.h * sc2) + 'px;background:transparent;pointer-events:auto;';
+            inLeft.style.cssText   = 'display:none;';
+            inRight.style.cssText  = 'display:none;';
+            inBottom.style.cssText = 'display:none;';
+          } else {
+            inTop.style.cssText    = 'display:none;';
+            inLeft.style.cssText   = 'display:none;';
+            inRight.style.cssText  = 'display:none;';
+            inBottom.style.cssText = 'display:none;';
+          }
         }
 
         function tutorialRender() {
@@ -1273,6 +1321,10 @@
               document.getElementById('tut-sh-bottom').style.cssText= 'display:none;';
               document.getElementById('tut-ring').style.display      = 'none';
               document.getElementById('tut-beacons').innerHTML       = '';
+              document.getElementById('tut-in-top').style.cssText    = 'display:none;';
+              document.getElementById('tut-in-left').style.cssText   = 'display:none;';
+              document.getElementById('tut-in-right').style.cssText  = 'display:none;';
+              document.getElementById('tut-in-bottom').style.cssText = 'display:none;';
             }
             setTimeout(tutorialNext, step.completedDelay || 600);
           }
